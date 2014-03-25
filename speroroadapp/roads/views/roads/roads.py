@@ -33,3 +33,44 @@ def roads_list(request):
 		new_obj = {}
 
 		levantamentos[0]['position']['coords']['latitude']
+
+
+
+@csrf_exempt
+def create(request):
+	# grant it's a post
+	# read the POSTed data
+	# create the object to send to the model
+
+	if request.method == 'POST':
+		category = request.POST['category']
+		title = request.POST['title']
+		description = request.POST['description']
+		coordinate = request.POST['coordinate']
+
+		try:
+			Places.objects.create(user_id = 1,
+								  category_id = category,
+								  title = title, 
+								  description = description, 
+								  coordinate = coordinate)
+
+			return HttpResponse(json.dumps({
+									'success': True, 
+									'msg': 'Success'
+								}), content_type='json')
+		except:
+			return HttpResponse(json.dumps({
+									'success': False, 
+									'msg': 'An error has occurred.'
+								}), content_type='json')
+	else:
+		return HttpResponse(json.dumps({
+									'success': False, 
+									'msg': 'Invalid request method.'
+								}), content_type='json')
+
+
+
+
+		
