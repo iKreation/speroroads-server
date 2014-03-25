@@ -1,0 +1,125 @@
+body{
+	overflow:hidden; 
+	font-family: 'Source Sans Pro', sans-serif;
+}
+
+
+#map {
+    width: 1900px !important;
+    height: 2480px;
+    left: -200px;
+    top: -200px; 
+    position: absolute;
+    z-index: 0;
+}
+
+
+/*LOGO --------------------------------------------------------*/
+.logotipo{
+	width: 230px;
+	height: 50px;
+
+	top: 20px;
+	left: 15px;
+	z-index: 999999999999;
+	position: fixed;
+
+	background: rgba(30,30,30,0.8);
+}
+
+.conLog{
+	width:160px;
+	height:40px;
+
+	margin-top: 12px;
+	margin-left: calc(50% - 88px);
+
+	display:block; 
+    position:relative;
+    overflow:hidden;
+
+    background: transparent;
+}
+#imgLog{
+	position:absolute;
+    top:0;
+    left:0; 
+    width:100%;
+    background: transparent;
+}
+/*LOGO --------------------------------------------------------*/
+
+
+
+
+
+
+.wrapList{
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+	max-width: initial;	
+
+	overflow-x: hidden;
+	overflow-y: scroll;
+	
+	margin-top: 12.500em;
+	height:28.125em;
+
+	z-index:100;
+	position: absolute;
+}	
+
+
+
+.report{
+	background: rgba(192, 57, 43, 0.9);
+}
+
+.titulo{
+	font-size: 28px;
+	padding:8px;
+}
+.descricao{
+	font-size: 20px;
+	padding:8px;
+}
+.data{
+	font-size: 16px;
+	padding:8px;
+}
+
+
+
+
+.bts{
+	margin-top: 10px;
+	margin-bottom: 60px;
+}
+
+.icons{
+	width:100%;
+	height: 100%;
+}
+
+.conten{
+	margin-bottom: 10px;
+	margin-right: 10px;
+	width:43px;
+	height: 40px;
+	background: rgba(192, 57, 43, 0.9);
+	float: left;
+}
+
+.img{
+	width:25px;
+	margin-top: 7px;
+	margin-left: 10px;
+}
+
+.imgView{
+	margin-top: 10px;
+}
+
+
+
