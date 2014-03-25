@@ -25,52 +25,32 @@ def rest(request, ident):
 
 def roads_list(request):
 
-
-	#query mongodb....
 	
-
 	lista=[]
 
 	for l in db.levantamentos.find():
 		
 		new_obj = {}
 
-		levantamentos[0]['position']['coords']['latitude']
+
+		if l['type'] == 'single':
+
+			new_obj['latitude'] = l['position']['coords']['latitude']
+			new_obj['longitude'] = l['position']['coords']['longitude']
+			new_obj['type'] = l['type']
+			new_obj['createddate'] = l['createddate']
+			lista.append(new_obj)
 
 
+		else:
 
-@csrf_exempt
-def create(request):
-	# grant it's a post
-	# read the POSTed data
-	# create the object to send to the model
+			new_obj['type'] = l['type']
+			new_obj['createddate'] = l['createddate']
+			new_obj['path'] = l['path']
+			lista.append(new_obj)
 
-	if request.method == 'POST':
-		category = request.POST['levantamentos']
-		
-		try:
-			Places.objects.create(user_id = 1,
-								  category_id = category,
-								  title = title, 
-								  description = description, 
-								  coordinate = coordinate)
-
-			return HttpResponse(json.dumps({
-									'success': True, 
-									'msg': 'Success'
-								}), content_type='json')
-		except:
-			return HttpResponse(json.dumps({
-									'success': False, 
-									'msg': 'An error has occurred.'
-								}), content_type='json')
-	else:
-		return HttpResponse(json.dumps({
-									'success': False, 
-									'msg': 'Invalid request method.'
-								}), content_type='json')
+	
 
 
+	return HttpResponse(json.dumps(lista), content_type='json')
 
-
-		
