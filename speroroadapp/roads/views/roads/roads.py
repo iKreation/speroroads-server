@@ -25,14 +25,33 @@ def rest(request, ident):
 
 def roads_list(request):
 
-
-	#query mongodb....
 	
-
 	lista=[]
 
 	for l in db.levantamentos.find():
 		
 		new_obj = {}
 
-		levantamentos[0]['position']['coords']['latitude']
+		if l['type'] == 'single':
+
+			new_obj['latitude'] = l['position']['coords']['latitude']
+			new_obj['longitude'] = l['position']['coords']['longitude']
+			new_obj['type'] = l['type']
+			new_obj['createddate'] = l['createddate']
+			lista.append(new_obj)
+
+
+		else:
+
+			new_obj['type'] = l['type']
+			new_obj['createddate'] = l['createddate']
+			new_obj['path'] = l['path']
+			lista.append(new_obj)
+
+	
+
+
+	return HttpResponse(json.dumps(lista), content_type='json')
+
+
+	
