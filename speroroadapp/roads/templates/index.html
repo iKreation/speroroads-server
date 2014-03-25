@@ -1,0 +1,120 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SPERORoads</title>
+    <link rel="stylesheet" href="css/foundation.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+
+    <script src="js/vendor/modernizr.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+  </head>
+  <body>
+
+
+    <div class="logotipo">
+      <div class="conLog">
+        <img id="imgLog" src="img/sper2.png" />
+      </div>  
+    </div>
+    
+    
+
+    <div class="row wrapList">
+      <div class="large-6 medium-6 columns">
+
+        <div class="row">
+
+          <div class="large-8 medium-8 small-12 columns con_report">
+            <div class="callout report">
+              <div class="titulo"><b>Buraco na Estrada</b></div>
+              <div class="descricao">efwefwefwefefwefwefwefef wefwefwefefwe fwefw efefwefw efwefefwef wefwefefwef wefwefefwefw efwe fefwefw efwefefwefwefw efefwefwe fwefefwefwefwef</div>
+              <div class="data">wefwefewf</div>
+            </div>
+          </div>
+
+          <div class="large-2 medium-2 small-12 columns bts">
+            <div class="callout conIcons">
+              
+              <div class="icons">
+                <div class="conEdit conten">
+                  <img class="img imgEdit" src="img/edit.png" />
+                </div> 
+                <div class="conExport conten">
+                  <img class="img imgExport" src="img/export.png" />
+                </div> 
+                <div class="conView conten">
+                  <img class="img imgView" src="img/view.png" />
+                </div> 
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+      </div>  
+    </div>
+
+
+    <div class="conMap">
+      <div id="map"></div>
+    </div>
+    
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASm3CwaK9qtcZEWYa-iQwHaGi3gcosAJc&sensor=false"></script>
+
+
+    <script type="text/javascript">
+            // When the window has finished loading create our google map below
+           
+        
+            function init() {
+                // Basic options for a simple Google Map
+                // For more options see: https://developers.google.com/maps/documentation/javascript/reference#MapOptions
+                var mapOptions = {
+                    // How zoomed in you want the map to start at (always required)
+                    zoom: 13,
+
+                    draggable: true,zoomControl: true, scrollwheel: true,disableDoubleClickZoom: false,
+
+                    // The latitude and longitude to center the map (always required)
+                    center: new google.maps.LatLng(40.9900, -73.9900), // New York
+                    /*center: new google.maps.LatLng(40.2035444,-8.4111983),*/
+
+                    // How you would like to style the map. 
+                    // This is where you would paste any style found on Snazzy Maps.
+                    styles: [{"elementType":"labels.text","stylers":[{"visibility":"off"}]},{"featureType":"landscape.natural","elementType":"geometry.fill","stylers":[{"color":"#f5f5f2"},{"visibility":"on"}]},{"featureType":"administrative","stylers":[{"visibility":"off"}]},{"featureType":"transit","stylers":[{"visibility":"off"}]},{"featureType":"poi.attraction","stylers":[{"visibility":"off"}]},{"featureType":"landscape.man_made","elementType":"geometry.fill","stylers":[{"color":"#ffffff"},{"visibility":"on"}]},{"featureType":"poi.business","stylers":[{"visibility":"off"}]},{"featureType":"poi.medical","stylers":[{"visibility":"off"}]},{"featureType":"poi.place_of_worship","stylers":[{"visibility":"on"}]},{"featureType":"poi.school","stylers":[{"visibility":"off"}]},{"featureType":"poi.sports_complex","stylers":[{"visibility":"off"}]},{"featureType":"road.highway","elementType":"geometry","stylers":[{"color":"#ffffff"},{"visibility":"simplified"}]},{"featureType":"road.arterial","stylers":[{"visibility":"simplified"},{"color":"#ffffff"}]},{"featureType":"road.highway","elementType":"labels.icon","stylers":[{"color":"#ffffff"},{"visibility":"off"}]},{"featureType":"road.highway","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"road.arterial","stylers":[{"color":"#ffffff"}]},{"featureType":"road.local","stylers":[{"color":"#ffffff"}]},{"featureType":"poi.park","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"poi","elementType":"labels.icon","stylers":[{"visibility":"off"}]},{"featureType":"water","stylers":[{"color":"#71c8d4"}]},{"featureType":"landscape","stylers":[{"color":"#e5e8e7"}]},{"featureType":"poi.park","stylers":[{"color":"#8ba129"}]},{"featureType":"road","stylers":[{"color":"#ffffff"}]},{"featureType":"poi.sports_complex","elementType":"geometry","stylers":[{"color":"#c7c7c7"},{"visibility":"off"}]},{"featureType":"water","stylers":[{"color":"#a0d3d3"}]},{"featureType":"poi.park","stylers":[{"color":"#91b65d"}]},{"featureType":"poi.park","stylers":[{"gamma":1.51}]},{"featureType":"road.local","stylers":[{"visibility":"off"}]},{"featureType":"road.local","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"poi.government","elementType":"geometry","stylers":[{"visibility":"on"}]},{"featureType":"landscape","stylers":[{"visibility":"off"}]},{"featureType":"road","elementType":"labels","stylers":[{"visibility":"on"}]},{"featureType":"road.arterial","elementType":"geometry","stylers":[{"visibility":"simplified"}]},{"featureType":"road.local","stylers":[{"visibility":"simplified"}]},{"featureType":"road"},{"featureType":"road"},{},{"featureType":"road.highway"}]
+                };
+
+                // Get the HTML DOM element that will contain your map 
+                // We are using a div with id="map" seen below in the <body>
+                var mapElement = document.getElementById('map');
+
+                // Create the Google Map using out element and options defined above
+                var map = new google.maps.Map(mapElement, mapOptions);
+            }
+             google.maps.event.addDomListener(window, 'load', init);
+</script>
+
+
+  </body>
+</html>
