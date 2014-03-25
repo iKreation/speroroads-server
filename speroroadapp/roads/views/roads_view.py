@@ -36,7 +36,7 @@ def roads_list(request):
 		
 		new_obj = {}
 
-
+		
 		if l['type'] == 'single':
 
 			new_obj['latitude'] = l['position']['coords']['latitude']
@@ -45,7 +45,6 @@ def roads_list(request):
 			new_obj['createddate'] = l['createddate']
 			lista.append(new_obj)
 
-
 		else:
 
 			new_obj['type'] = l['type']
@@ -53,7 +52,7 @@ def roads_list(request):
 			new_obj['path'] = l['path']
 			lista.append(new_obj)
 
-	
+		
 
 
 	return HttpResponse(json.dumps(lista), content_type='json')
