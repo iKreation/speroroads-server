@@ -2,7 +2,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from pymongo import MongoClient
-client = MongoClient('localhost', 27017)
+client = MongoClient('mongodb://moth.dec.uc.pt:27017')
+db = client['speroroads']
 
 @csrf_exempt
 def rest(request, ident):
@@ -26,10 +27,12 @@ def roads_list(request):
 
 
 	#query mongodb....
+	
 
 	lista=[]
 
-	#ciclo na query
+	for l in db.levantamentos.find():
+		
 		new_obj = {}
 
 		levantamentos[0]['position']['coords']['latitude']
