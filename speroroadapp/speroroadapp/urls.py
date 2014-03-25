@@ -6,9 +6,9 @@ from django.conf import settings
 urlpatterns = patterns('roads.views',
 	
 
-	url(r'^$','roads.index'),
+	url(r'^$','speroroadapp.index'),
 
-	url(r'^roads/(?P<ident>\d+)/$','roads.rest'),
+	url(r'^speroroadapp/(?P<ident>\d+)/$','roads.rest'),
 
 	
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_URL)
