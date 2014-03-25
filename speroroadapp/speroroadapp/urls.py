@@ -8,7 +8,7 @@ urlpatterns = patterns('roads.views',
 
 	url(r'^$','speroroadapp.index'),
 
-	url(r'^speroroadapp/(?P<ident>\d+)/$','roads.rest'),
+	url(r'^speroroadapp/(?P<ident>\d+)/$','roadsView.rest'),
 
 	
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_URL)
