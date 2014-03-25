@@ -46,11 +46,8 @@ def create(request):
 	# create the object to send to the model
 
 	if request.method == 'POST':
-		category = request.POST['category']
-		title = request.POST['title']
-		description = request.POST['description']
-		coordinate = request.POST['coordinate']
-
+		category = request.POST['levantamentos']
+		
 		try:
 			Places.objects.create(user_id = 1,
 								  category_id = category,
