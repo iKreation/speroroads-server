@@ -1,6 +1,5 @@
 console.log("ola");
 var roads = {
-
 	occurrences: {},
 
 
@@ -117,31 +116,27 @@ var roads = {
 	},
 
 	addPath: function(obj) { 
-
-		var path = obj;
-		var latLngBounds = new google.maps.LatLngBounds();
-
-		/*for (var i = 0; i<obj.length; i++){
-			
-	  		latLngBounds.extend(obj[i]);
-	  		
-	  		new google.maps.Marker({
-   				map: map,
-    			position: obj[i],
-    			title: "Point " + (i + 1)
-  			});
-			
-		}
-*/
+		
+		var path = [
+		    new google.maps.LatLng(37.772323, -122.214897),
+		    new google.maps.LatLng(21.291982, -157.821856),
+		    new google.maps.LatLng(-18.142599, 178.431),
+		    new google.maps.LatLng(-27.46758, 153.027892)
+		  ];
+		  
+		  
 		var polyline = new google.maps.Polyline({
-		  map: map,
-		  path: obj,
+		  path: path,
 		  strokeColor: '#0000FF',
 		  strokeOpacity: 0.7,
 		  strokeWeight: 1
 		});
+		console.log(path);
+		console.log('crl');
+		console.log(polyline)
+		console.log(this.map)
+		polyline.setMap(this.map);
 
-		map.fitBounds(latLngBounds);
 	}
 }
 
