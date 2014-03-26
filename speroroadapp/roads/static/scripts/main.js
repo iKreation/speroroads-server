@@ -1,3 +1,4 @@
+console.log("ola");
 var roads = {
 
 	occurrences: {},
@@ -92,31 +93,27 @@ var roads = {
 	  	
 		
 
-	  var occurrence = new google.maps.Marker({
-	      position: myLatlng,
-		  map: window.occurrencesMap,
-		  title = obj.title
-	  });
+		var occurrence = new google.maps.Marker({
+		      position: myLatlng,
+			  map: window.occurrencesMap,
+			  title: obj.title
+		});
 
 
-	  google.maps.event.addListener(marker, 'click', function() {
-	  	if(infowindow) {
-	  		console.log("entrou");
-	  		infowindow.close();
-	  	} 
+	  	google.maps.event.addListener(marker, 'click', function() {
+		  	if(infowindow) {
+		  		console.log("entrou");
+		  		infowindow.close();
+		  	} 
 
-	  	var infowindow = new google.maps.InfoWindow({
-	      content: contentString
-	  	});
+		  	var infowindow = new google.maps.InfoWindow({
+		      content: contentString
+		  	});
 
-	  	infowindow.open(occurrencesMap,marker);
-
-	  	
-	  window.markers.push(occurrence);
-	}
-}
-
-
+	  		infowindow.open(occurrencesMap,marker);
+	  		window.markers.push(occurrence);
+		});
+	},
 
 	addPath: function(obj) {
 
@@ -127,14 +124,14 @@ var roads = {
 		for (var i = 0; i<path.length; i++){
 			
 	  		latLngBounds.extend(path[i]);
-
+	  		/*
 	  		new google.maps.Marker({
    				map: map,
     			position: path[i],
     			title: "Point " + (i + 1)
   			});
+			*/
 		}
-
 
 		var polyline = new google.maps.Polyline({
 		  map: map,
