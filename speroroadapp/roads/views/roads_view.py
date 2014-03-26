@@ -68,15 +68,12 @@ def create(request):
 
 	if request.method == 'POST':
 
-		new_obj = {}
+		data = request.POST['levantamento']
 
-		new_obj['type'] = request.POST['type']
-		#new_obj['latitude'] = request.POST[['position']['coords']['latitude']]
-		#new_obj['longitude'] = request.POST[['position']['coords']['longitude']]
-		new_obj['createddate'] = request.POST['createddate']
-		
+		levantamento = json.loads(data)
+
 		try:
-			db.levantamentos.insert(new_obj)
+			db.levantamentos.insert(levantamento)
 
 			return HttpResponse(json.dumps({
 									'success': True, 
