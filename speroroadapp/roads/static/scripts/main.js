@@ -2,7 +2,7 @@ var roads = {
 
 	occurrences: {},
 
-	paths = [];
+	paths: [],
 
 
 
@@ -12,7 +12,31 @@ var roads = {
 		
 		$.get('http://localhost:8000/speroroadapp/0/', function(data) {
 			window.roads.occurrences = data;
-			
+			for(var i = 0; i < data.length;i++){
+				var string = '<div class="row">'
+				+ '<div class="large-8 medium-8 small-12 columns con_report">'
+				+ '<div class="callout report" style="height:80px;">'
+				+ '<p><b>' + data[i].createddate + '</b>, ' + data[i].type + ' </p>'
+				+ '</div>'
+				+ '</div>'
+				+ '<div class="large-2 medium-2 small-12 columns bts">'
+				+ '<div class="callout conIcons">'
+				+ '<div class="icons">'
+				+ '<div class="conEdit conten">'
+				+ '<img class="img imgEdit" src="static/img/edit.png" />'
+				+ '</div>'
+				+ '<div class="conExport conten">'
+				+ '<img class="img imgExport" src="static/img/export.png" />'
+				+ '</div>'
+				+ '<div class="conView conten">'
+				+ '<img class="img imgView" src="static/img/view.png" />'
+				+ '</div>'
+				+ '</div>'
+				+ '</div>'
+				+ '</div>'
+				+ '</div>';
+				$('#levantamentos').append(string)
+			}	
 			//console.log(window.onspot.categories);
 		});
 	},
@@ -74,8 +98,5 @@ var roads = {
 
 
 $(document).ready(function() {
-	var onspotMap;
-	onspot.initialize();
+	roads.getOccurrences();
 });
-
-$
