@@ -112,3 +112,63 @@ def create(request):
 									'msg': 'Invalid request method.'
 								}), content_type='json')
 
+def export_csv(request):
+    
+    
+    data = request.POST['levantamento']
+
+    import csv
+    from django.utils.encoding import smart_str
+    response = HttpResponse(mimetype='text/csv')
+    response['Content-Disposition'] = 'attachment; filename=mymodel.csv'
+    writer = csv.writer(response, csv.excel)
+    response.write(u'\ufeff'.encode('utf8'))
+
+    for l in levantamento:
+		
+		new_obj = {}
+
+		
+		if l['type'] == 'single':
+
+			new_obj['latitude'] = l['position']['coords']['latitude']
+			new_obj['longitude'] = l['position']['coords']['longitude']
+			new_obj['type'] = l['type']
+			new_obj['createddate'] = l['createddate']
+
+			writer.writerow([
+        		smart_str(new_obj['latitude']),
+        		smart_str(new_obj['longitude']),
+        		smart_str(new_obj['type']),
+        		smart_str(new_obj['createddate']),
+    		])
+
+		else:
+
+			new_obj['type'] = l['type']
+			new_obj['createddate'] = l['createddate']
+			new_obj['path'] = l['path']
+
+			writer.writerow([
+				smart_str(new_obj['path']),
+        		smart_str(new_obj['type']),
+        		smart_str(new_obj['createddate']),
+    		])
+
+    return response
+export_csv.short_description = u"Export CSV"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

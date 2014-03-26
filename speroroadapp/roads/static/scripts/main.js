@@ -8,7 +8,6 @@ var roads = {
 		var that = this;
 		
 		$.get('http://localhost:8000/speroroadapp/0/', function(data) {
-			console.log(data);
 			window.roads.occurrences = data;
 			for(var i = 0; i < data.length;i++){
 				var string = '<div class="row" id='+data[i].id +'>'
