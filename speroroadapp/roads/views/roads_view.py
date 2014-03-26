@@ -2,6 +2,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from pymongo import MongoClient
+import simplejson as json
+
 client = MongoClient('mongodb://moth.dec.uc.pt:27017')
 db = client['speroroads']
 
@@ -63,13 +65,18 @@ def roads_list(request):
 def create(request):
 	# grant it's a post
 	# read the POSTed data
-	# create the object to send to the model
 
 	if request.method == 'POST':
-		data = request.POST['levantamentos']
+
+		new_obj = {}
+
+		new_obj['type'] = request.POST['type']
+		#new_obj['latitude'] = request.POST[['position']['coords']['latitude']]
+		#new_obj['longitude'] = request.POST[['position']['coords']['longitude']]
+		new_obj['createddate'] = request.POST['createddate']
 		
 		try:
-			db.levantamentos.insert(data)
+			db.levantamentos.insert(new_obj)
 
 			return HttpResponse(json.dumps({
 									'success': True, 
