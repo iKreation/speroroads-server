@@ -3,6 +3,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from pymongo import MongoClient
 import simplejson as json
+import csv
+from django.utils.encoding import smart_str
 
 client = MongoClient('mongodb://moth.dec.uc.pt:27017')
 db = client['speroroads']
@@ -101,13 +103,14 @@ def create(request):
 									'msg': 'Invalid request method.'
 								}), content_type='json')
 
-def export_csv(request):
+def export_csv():
     
     
-    data = request.POST['levantamento']
+    #data = request.POST['levantamento']
 
-    import csv
-    from django.utils.encoding import smart_str
+    data = {'type' : 'single' , 'position' : {'coords' : {'latitude' : '99' , 'longitude' : '9999'}} , 'createddate' : 'laparamarco'}
+
+
     response = HttpResponse(mimetype='text/csv')
     response['Content-Disposition'] = 'attachment; filename=mymodel.csv'
     writer = csv.writer(response, csv.excel)
