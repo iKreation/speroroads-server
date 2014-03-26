@@ -137,7 +137,24 @@ var roads = {
 		console.log(this.map)
 		polyline.setMap(this.map);
 
+		/*for (var i = 0; i<obj.length; i++){
+			
+	  		latLngBounds.extend(obj[i]);
+	  		
+	  		new google.maps.Marker({
+   				map: map,
+    			position: obj[i],
+    			title: "Point " + (i + 1)
+  			});
+			
+		}
+*/
+		
+
+		//map.fitBounds(latLngBounds);
 	}
+
+
 }
 
 

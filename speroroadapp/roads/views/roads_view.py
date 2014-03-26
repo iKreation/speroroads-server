@@ -71,16 +71,20 @@ def create(request):
 
 		levantamento = json.loads(data)
 
-		new_obj={}
+		lista=[]
 
-		new_obj['latitude'] = levantamento['position']['coords']['latitude']
-		new_obj['longitude'] = levantamento['position']['coords']['longitude']
-		new_obj['type'] = levantamento['type']
-		new_obj['createddate'] = levantamento['createddate']
+		for l in levantamento:
+			new_obj={}
+			new_obj['id'] = l['id']
+			new_obj['position'] = l['position']
+			new_obj['createddate'] = l['createddate']
+			new_obj['type'] = l['type']
+			lista.append(new_obj)
+
 
 
 		try:
-			db.levantamentos.insert(new_obj)
+			db.levantamentos.insert(lista)
 
 			return HttpResponse(json.dumps({
 									'success': True, 
