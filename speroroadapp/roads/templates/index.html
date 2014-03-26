@@ -1,15 +1,18 @@
 <!doctype html>
 <html class="no-js" lang="en">
+{% load staticfiles %}
+
   <head>
+    
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SPERORoads</title>
-    <link rel="stylesheet" href="css/foundation.css" />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="static/css/foundation.css" />
+    <link rel="stylesheet" href="static/css/style.css" />
 
     <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
 
-    <script src="js/vendor/modernizr.js"></script>
+    <script src="static/js/vendor/modernizr.js"></script>
 
 
 
@@ -19,7 +22,7 @@
 
     <div class="logotipo">
       <div class="conLog">
-        <img id="imgLog" src="img/sper2.png" />
+        <img id="imgLog" src="static/img/sper2.png" />
       </div>  
     </div>
     
@@ -43,13 +46,13 @@
               
               <div class="icons">
                 <div class="conEdit conten">
-                  <img class="img imgEdit" src="img/edit.png" />
+                  <img class="img imgEdit" src="static/img/edit.png" />
                 </div> 
                 <div class="conExport conten">
-                  <img class="img imgExport" src="img/export.png" />
+                  <img class="img imgExport" src="static/img/export.png" />
                 </div> 
                 <div class="conView conten">
-                  <img class="img imgView" src="img/view.png" />
+                  <img class="img imgView" src="static/img/view.png" />
                 </div> 
               </div>
 
@@ -66,8 +69,8 @@
       <div id="map"></div>
     </div>
     
-    <script src="js/vendor/jquery.js"></script>
-    <script src="js/foundation.min.js"></script>
+    <script src="static/js/vendor/jquery.js"></script>
+    <script src="static/js/foundation.min.js"></script>
     <script>
       $(document).foundation();
     </script>
