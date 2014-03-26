@@ -71,8 +71,16 @@ def create(request):
 
 		levantamento = json.loads(data)
 
+		new_obj={}
+
+		new_obj['latitude'] = levantamento['position']['coords']['latitude']
+		new_obj['longitude'] = levantamento['position']['coords']['longitude']
+		new_obj['type'] = levantamento['type']
+		new_obj['createddate'] = levantamento['createddate']
+
+
 		try:
-			db.levantamentos.insert(levantamento)
+			db.levantamentos.insert(new_obj)
 
 			return HttpResponse(json.dumps({
 									'success': True, 

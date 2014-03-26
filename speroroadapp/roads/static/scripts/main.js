@@ -116,27 +116,26 @@ var roads = {
 		});
 	},
 
-	addPath: function(obj) {
+	addPath: function(obj) { 
 
-		var path = obj.path;
-
+		var path = obj;
 		var latLngBounds = new google.maps.LatLngBounds();
 
-		for (var i = 0; i<path.length; i++){
+		/*for (var i = 0; i<obj.length; i++){
 			
-	  		latLngBounds.extend(path[i]);
-	  		/*
+	  		latLngBounds.extend(obj[i]);
+	  		
 	  		new google.maps.Marker({
    				map: map,
-    			position: path[i],
+    			position: obj[i],
     			title: "Point " + (i + 1)
   			});
-			*/
+			
 		}
-
+*/
 		var polyline = new google.maps.Polyline({
 		  map: map,
-		  path: path,
+		  path: obj,
 		  strokeColor: '#0000FF',
 		  strokeOpacity: 0.7,
 		  strokeWeight: 1
@@ -150,4 +149,5 @@ var roads = {
 $(document).ready(function() {
 
 	var occurrencesMap;
+	roads.getOccurrences();
 });
