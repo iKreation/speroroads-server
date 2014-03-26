@@ -2,6 +2,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from pymongo import MongoClient
+import simplejson as json
+
 client = MongoClient('mongodb://moth.dec.uc.pt:27017')
 db = client['speroroads']
 
