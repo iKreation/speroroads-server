@@ -2,6 +2,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from pymongo import MongoClient
+import simplejson as json
+
 client = MongoClient('mongodb://moth.dec.uc.pt:27017')
 db = client['speroroads']
 
@@ -62,13 +64,15 @@ def roads_list(request):
 def create(request):
 	# grant it's a post
 	# read the POSTed data
-	# create the object to send to the model
 
 	if request.method == 'POST':
-		data = request.POST['levantamentos']
-		
+
+		data = request.POST['levantamento']
+
+		levantamento = json.loads(data)
+
 		try:
-			db.levantamentos.insert(data)
+			db.levantamentos.insert(levantamento)
 
 			return HttpResponse(json.dumps({
 									'success': True, 
