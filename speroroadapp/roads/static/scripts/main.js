@@ -16,8 +16,8 @@ var roads = {
 			window.roads.occurrences = data;
 			for(var i = 0; i < data.length;i++){
 				var string = '<div class="row ocorrencia" id='+data[i].id +'>'
-				+ '<div class="large-8 medium-8 small-12 columns con_report">'
-				+ '<div class="callout report" style="height:80px;">'
+				+ '<div class="large-8 medium-8 small-12 columns con_report"' +'>'
+				+ '<div class="callout report" style="height:80px;" id='+data[i].id +"1"+'>'
 				+ '<p><b>' + data[i].id + '</b>, '+ data[i].createddate + '</b>, ' + data[i].type + ' </p>'
 				+ '</div>'
 				+ '</div>'
@@ -61,6 +61,10 @@ var roads = {
 				botaoView.click(function(){
 					id = ocorrencia.attr("id");
 					roads.addOccurrenceToMap(id);
+					var info = ocorrencia.find(".con_report");
+					var report = info.find(".report");
+					console.log(report.attr("id"));
+					$('#'+report.attr("id")+'').attr('style', 'background-color: green !important; height:80px;');
 
 					console.log("View id dentro"+id);
 				});        
@@ -103,14 +107,15 @@ var roads = {
 	},
 
 	setAllMap: function(map){
-		for (var i = 0; i < occurrences.length; i++) {
-			window.occurrences[i].setMap(map);
+		for (var i = 0; i < window.markers.length; i++) {
+			this.markers[i].setMap(window.map);
 		}
 	},
 
 	addOccurence: function(obj) {
 
 		console.log("1");
+
 
 
 		var latitude = obj.latitude;
