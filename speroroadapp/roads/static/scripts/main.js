@@ -145,31 +145,43 @@ var roads = {
 		console.log(marker);
 
 	  	google.maps.event.addListener(marker, 'click', function() {
-	  	if(infowindow) {
-	  		console.log("entrou");
-	  		infowindow.close();
-	  	} 
-		console.log("5");
+	  		console.log(marker);
+	  		console.log(map);
 
-	  	var infowindow = new google.maps.InfoWindow({
-	      content: contentString
+	  		console.log(" n tem, cria ");
+	  		window.currentMarker = marker;
+	  		if(window.infowindow) {
+	  			window.infowindow.close()
+	  		}
+	  		window.infowindow = null;
+
+	  		window.infowindow = new google.maps.InfoWindow({
+      							content: contentString
+		  					});
+		  	
+		  	window.infowindow.open(this.map,marker);
+
+		  	
+		  	
 	  	});
-
-	  	infowindow.open(map,marker);
-
 	  	window.markers.push(marker);
-	  });
 
 	},
 
 	addPath: function(obj) { 
 
-		var path = [
+		console.log(obj.path[0][0]);
+
+		var path = [];
 		new google.maps.LatLng(37.772323, -122.214897),
 		new google.maps.LatLng(21.291982, -157.821856),
 		new google.maps.LatLng(-18.142599, 178.431),
 		new google.maps.LatLng(-27.46758, 153.027892)
-		];
+		
+		for(var i = 0; i<obj.path.length; i++){
+
+			path.push(new google.maps.LatLng(obj.path[i][0], obj.path[i][1]));
+		}
 
 
 		var polyline = new google.maps.Polyline({
@@ -191,7 +203,6 @@ var roads = {
 
 $(document).ready(function() {
 
-	var map;
 	window.markers = [];
 	roads.getOccurrences();
 });
