@@ -26,8 +26,8 @@
       </div>  
     </div>
 
-    <div class="row wrapList">
-      <div class="large-6 medium-6 columns" id="levantamentos">
+    <div class="row wrapList " style ="width: 50%">
+      <div class="large-12 medium-12 columns" id="levantamentos">
 
 
       </div>
@@ -45,6 +45,8 @@
     <script>
       $(document).foundation();
     </script>
+
+    <script src="/static/scripts/main.js"></script>
 
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyASm3CwaK9qtcZEWYa-iQwHaGi3gcosAJc&sensor=false"></script>
 
@@ -80,12 +82,12 @@
                 roads['map'] = new google.maps.Map(mapElement, mapOptions);
             }
             google.maps.event.addDomListener(window, 'load', init);
+
+            
 </script>
 
 
-    <script src="/static/scripts/main.js">
-
-    </script>
+    
 
 
   </body>

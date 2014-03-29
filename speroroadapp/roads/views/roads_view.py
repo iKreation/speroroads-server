@@ -92,7 +92,7 @@ def create(request):
 			new_obj['id'] = int(round(time.time() * 1000))
 			new_obj['prob_id'] = l['prob_id']
 			new_obj['position'] = l['position']
-			#new_obj['path'] = l['path']
+			new_obj['path'] = l['path']
 			new_obj['createddate'] = l['createddate']
 			new_obj['type'] = l['type']
 			lista.append(new_obj)
