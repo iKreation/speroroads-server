@@ -10,10 +10,10 @@ var roads = {
 		$.get('http://localhost:8000/speroroadapp/0/', function(data) {
 			window.roads.occurrences = data;
 			for(var i = 0; i < data.length;i++){
-				var string = '<div class="row">'
+				var string = '<div class="row" id='+data[i].id +'>'
 				+ '<div class="large-8 medium-8 small-12 columns con_report">'
 				+ '<div class="callout report" style="height:80px;">'
-				+ '<p><b>' + data[i].createddate + '</b>, ' + data[i].type + ' </p>'
+				+ '<p><b>' + data[i].id + '</b>, '+ data[i].createddate + '</b>, ' + data[i].type + ' </p>'
 				+ '</div>'
 				+ '</div>'
 				+ '<div class="large-2 medium-2 small-12 columns bts">'
@@ -155,6 +155,15 @@ var roads = {
 
 
 }
+
+$('#button_cancel_Place').on('click', function(evt) {
+
+                evt.preventDefault();
+                window.onspot.removeCurrentMarker();
+                $("#createForm").hide();  
+                $("#categories").show();
+
+});
 
 
 $(document).ready(function() {
