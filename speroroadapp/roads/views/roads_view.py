@@ -124,7 +124,7 @@ def export_csv(request):
 
 
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=mymodel.csv'
+    response['Content-Disposition'] = 'attachment; filename=export.csv'
     writer = csv.writer(response, csv.excel)
     response.write(u'\ufeff'.encode('utf8'))
 
@@ -148,28 +148,29 @@ def export_csv(request):
 		
 		if l['type'] == 'single':
 
+			new_obj['id'] = l['id']
 			new_obj['latitude'] = l['position']['coords']['latitude']
 			new_obj['longitude'] = l['position']['coords']['longitude']
 			new_obj['type'] = l['type']
 			new_obj['createddate'] = l['createddate']
 
 			writer.writerow([
-				smart_str('id'),
+				smart_str(new_obj['id']),
         		smart_str(new_obj['type']),
         		smart_str(new_obj['latitude']),
         		smart_str(new_obj['longitude']),
-        		smart_str('path'),
+        		smart_str(''),
         		smart_str(new_obj['createddate']),
     		])
 
 		else:
-
+			new_obj['id'] = l['id']
 			new_obj['type'] = l['type']
 			new_obj['createddate'] = l['createddate']
 			new_obj['path'] = l['path']
 
 			writer.writerow([
-				smart_str('id'),
+				smart_str(new_obj['id']),
 				smart_str(new_obj['type']),
 				smart_str(''),
 				smart_str(''),
