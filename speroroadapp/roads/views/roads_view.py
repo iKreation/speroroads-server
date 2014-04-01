@@ -3,12 +3,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
 from pymongo import MongoClient
 import simplejson as json
-<<<<<<< HEAD
 import csv
 from django.utils.encoding import smart_str
-=======
+
 import time
->>>>>>> e16951f12799b0f540b0499a5ce8352fdfa32988
 
 client = MongoClient('mongodb://moth.dec.uc.pt:27017')
 db = client['speroroads']
@@ -117,20 +115,33 @@ def create(request):
 									'msg': 'Invalid request method.'
 								}), content_type='json')
 
-def export_csv():
-    
+def export_csv(request):
     
     #data = request.POST['levantamento']
 
-    data = {'type' : 'single' , 'position' : {'coords' : {'latitude' : '99' , 'longitude' : '9999'}} , 'createddate' : 'laparamarco'}
+    #data = [{'type' : 'single' , 'position' : {'coords' : {'latitude' : '99' , 'longitude' : '9999'}} , 'createddate' : 'laparamarco'}]
+    
 
 
-    response = HttpResponse(mimetype='text/csv')
+    response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename=mymodel.csv'
     writer = csv.writer(response, csv.excel)
     response.write(u'\ufeff'.encode('utf8'))
 
-    for l in levantamento:
+    writer.writerow([
+
+    	smart_str(u"ID"),
+    	smart_str(u"Type"),
+    	smart_str(u"Latitude"),
+    	smart_str(u"Longitude"),
+    	smart_str(u"Path"),
+    	smart_str(u"Created Date"),
+
+    ])
+    
+
+
+    for l in db.levantamentos.find():
 		
 		new_obj = {}
 
@@ -143,9 +154,11 @@ def export_csv():
 			new_obj['createddate'] = l['createddate']
 
 			writer.writerow([
+				smart_str('id'),
+        		smart_str(new_obj['type']),
         		smart_str(new_obj['latitude']),
         		smart_str(new_obj['longitude']),
-        		smart_str(new_obj['type']),
+        		smart_str('path'),
         		smart_str(new_obj['createddate']),
     		])
 
@@ -156,13 +169,17 @@ def export_csv():
 			new_obj['path'] = l['path']
 
 			writer.writerow([
+				smart_str('id'),
+				smart_str(new_obj['type']),
+				smart_str(''),
+				smart_str(''),
 				smart_str(new_obj['path']),
-        		smart_str(new_obj['type']),
         		smart_str(new_obj['createddate']),
     		])
 
     return response
-export_csv.short_description = u"Export CSV"
+
+#export_csv.short_description = u"Export CSV"
 
 
 

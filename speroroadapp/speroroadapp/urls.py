@@ -7,6 +7,7 @@ urlpatterns = patterns('roads.views',
 	
 
 	url(r'^speroroadapp/(?P<ident>\d+)/$','roads_view.rest'),
+	url(r'^export/$', 'roads_view.export_csv'),
 	url(r'^$','roads_view.index'),
 	
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_URL)
