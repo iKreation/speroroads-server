@@ -9,6 +9,10 @@ var roads = {
 
 
 
+
+
+
+
 	getReports: function() {
 		var that = this;
 
@@ -102,20 +106,22 @@ var roads = {
 						this.addOccurence(ocurrencia);
 					}
 					else{
-						//this.addPath(ocurrencia);
+						this.addPath(ocurrencia);
 					}
 
 				}
 			}
+
+			var bounds = new google.maps.LatLngBounds();
+
+		for(var i = 0; i < this.markerBounds.length; i++) {
+			bounds.extend(this.markerBounds[i]);
+		 }
+
+		this.map.fitBounds(bounds);
 		}
 
-		// var bounds = new google.maps.LatLngBounds();
-
-		// for(var i = 0; i < this.markerBounds.length; i++) {
-		// 	bounds.extend(this.markerBounds[i]);
-		// }
-
-		// this.map.fitBounds(bounds);
+		
 
 	},
 
@@ -137,11 +143,12 @@ var roads = {
 	addOccurence: function(obj) {
 
 		console.log("1");
+		console.log(obj);
 
-		this.removeAllOcurrences();
+		//this.removeAllOcurrences();
 
-		var latitude = obj.latitude;
-		var longitude = obj.longitude;
+		var latitude = obj.position.coords.latitude;
+		var longitude = obj.position.coords.longitude;
 
 
 		var myLatlng = new google.maps.LatLng(latitude,longitude);
@@ -200,17 +207,15 @@ var roads = {
 
 	addPath: function(obj) { 
 
-		console.log(obj.path[0][0]);
+		console.log("path");
+		console.log(obj);
+		console.log(obj.path);
 
 		var path = [];
-		new google.maps.LatLng(37.772323, -122.214897),
-		new google.maps.LatLng(21.291982, -157.821856),
-		new google.maps.LatLng(-18.142599, 178.431),
-		new google.maps.LatLng(-27.46758, 153.027892)
-		
+			
 		for(var i = 0; i<obj.path.length; i++){
 
-			path.push(new google.maps.LatLng(obj.path[i][0], obj.path[i][1]));
+			path.push(new google.maps.LatLng(obj.path[i].latitude, obj.path[i].longitude));
 		}
 
 
