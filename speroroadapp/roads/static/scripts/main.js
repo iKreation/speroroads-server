@@ -9,16 +9,16 @@ var roads = {
 
 
 
-	getOccurrences: function() {
+	getReports: function() {
 		var that = this;
 
 		$.get('/speroroadapp/0/', function(data) {
 			window.roads.reports = data;
 			for(var i = 0; i < data.length;i++){
-				var string = '<div class="row ocorrencia" id='+data[i].id +'>'
+				var string = '<div class="row levantamentos" id='+data[i].id +'>'
 				+ '<div class="large-8 medium-8 small-12 columns con_report"' +'>'
 				+ '<div class="callout report" style="height:80px;" id='+data[i].id +"1"+'>'
-				+ '<p><b>' + data[i].id + '</b>, '+ data[i].createddate + '</b>, ' + data[i].type + ' </p>'
+				+ '<p><b>' + data[i].id + '</b></p><p>'+ data[i].name + ' </p>'
 				+ '</div>'
 				+ '</div>'
 				+ '<div class="large-2 medium-2 small-12 columns bts">'
@@ -37,32 +37,32 @@ var roads = {
 				+ '</div>'
 				+ '</div>'
 				+ '</div>';
-				$('#levantamentos').append(string);
+				$('#reports').append(string);
 			}
 
-			var levantamentos = $('#levantamentos');
-			var ocorrencias = levantamentos.find('.ocorrencia');
+			var reports = $('#reports');
+			var levantamento = reports.find('.levantamentos');
 
-			ocorrencias.each(function () {
-				var ocorrencia = $(this);
-				var botaoEdit = ocorrencia.find(".conEdit");
-				var botaoExport = ocorrencia.find(".conExport");
-				var botaoView = ocorrencia.find(".conView");
+			levantamento.each(function () {
+				var levantamento = $(this);
+				var botaoEdit = levantamento.find(".conEdit");
+				var botaoExport = levantamento.find(".conExport");
+				var botaoView = levantamento.find(".conView");
 				botaoEdit.click(function(){
-					id = ocorrencia.attr("id");
+					id = levantamento.attr("id");
 
 					console.log("Edit id dentro"+id);
 				});
 				botaoExport.click(function(){
-					id = ocorrencia.attr("id");
+					id = levantamento.attr("id");
 
 					console.log("Export id dentro"+id);
 				});    
 				botaoView.click(function(){
 					
-					id = ocorrencia.attr("id");
+					id = levantamento.attr("id");
 					roads.addOccurrenceToMap(id);
-					var info = ocorrencia.find(".con_report");
+					var info = levantamento.find(".con_report");
 					var report = info.find(".report");
 					console.log(report.attr("id"));	
 					$('#'+report.attr("id")+'').attr('style', 'background-color: green !important; height:80px;');
@@ -79,13 +79,32 @@ var roads = {
 
 		for(var i = 0; i<roads.reports.length; i++){
 			if (roads.reports[i].id == obj) {
-				if(roads.reports[i].type == "single"){
-					console.log("single");
 
-					this.addOccurence(roads.reports[i]);
-				}
-				else{
-					this.addPath(roads.reports[i]);
+				var levantamento = roads.reports[i];
+				var occurrencias = levantamento.occurrences;
+
+				for(var j = 0; j < occurrencias.length; j++){
+
+					var ocurrencia = occurrencias[i];
+
+					var string = '<div class="row occurrencia" id='+ocurrencia.id +'>'
+					+ '<div class="large-8 medium-8 small-12 columns con_report"' +'>'
+					+ '<div class="callout report " style="height:80px;" id='+ocurrencia.id +"1"+'>'
+					+ '<p><b>' + ocurrencia.id + '</b></p><p>'+ ocurrencia.type + ' </p>'
+					+ '</div>'
+					+ '</div>'
+					+ '</div>';
+					$('.levantamentos').append(string);
+
+					if(ocurrencia.type == "single"){
+						console.log("single");
+
+						this.addOccurence(ocurrencia);
+					}
+					else{
+						this.addPath(ocurrencia);
+					}
+
 				}
 			}
 		}
@@ -214,5 +233,5 @@ var roads = {
 $(document).ready(function() {
 
 	window.markers = [];
-	roads.getOccurrences();
+	roads.getReports();
 });
