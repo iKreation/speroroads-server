@@ -199,7 +199,7 @@ def export_csv(request):
 def delete(request, ident):
 	try:
 
-		db.levantamentos.remove({id : ident })
+		db.levantamentos.remove({"id" : int(ident) })
 
 		return HttpResponse(json.dumps({'success': True}), 
 	 				content_type="json")
