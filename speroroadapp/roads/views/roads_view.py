@@ -12,7 +12,6 @@ from random import randrange
 client = MongoClient('mongodb://moth.dec.uc.pt:27017')
 db = client['speroroads']
 
-
 def index(request):
 	return render(request,'index.html')
 
@@ -154,41 +153,43 @@ def export_csv(request):
 
 
     for l in db.levantamentos.find():
+
+    	for o in l['occurrences']:
 		
-		new_obj = {}
+			new_obj = {}
 
-		
-		if l['type'] == 'single':
+			
+			if o['type'] == 'single':
 
-			new_obj['id'] = l['id']
-			new_obj['latitude'] = l['position']['coords']['latitude']
-			new_obj['longitude'] = l['position']['coords']['longitude']
-			new_obj['type'] = l['type']
-			new_obj['createddate'] = l['createddate']
+				new_obj['id'] = o['id']
+				new_obj['latitude'] = o['position']['coords']['latitude']
+				new_obj['longitude'] = o['position']['coords']['longitude']
+				new_obj['type'] = o['type']
+				new_obj['createddate'] = o['createddate']
 
-			writer.writerow([
-				smart_str(new_obj['id']),
-        		smart_str(new_obj['type']),
-        		smart_str(new_obj['latitude']),
-        		smart_str(new_obj['longitude']),
-        		smart_str(''),
-        		smart_str(new_obj['createddate']),
-    		])
+				writer.writerow([
+					smart_str(new_obj['id']),
+	        		smart_str(new_obj['type']),
+	        		smart_str(new_obj['latitude']),
+	        		smart_str(new_obj['longitude']),
+	        		smart_str(''),
+	        		smart_str(new_obj['createddate']),
+	    		])
 
-		else:
-			new_obj['id'] = l['id']
-			new_obj['type'] = l['type']
-			new_obj['createddate'] = l['createddate']
-			new_obj['path'] = l['path']
+			else:
+				new_obj['id'] = o['id']
+				new_obj['type'] = o['type']
+				new_obj['createddate'] = o['createddate']
+				new_obj['path'] = o['path']
 
-			writer.writerow([
-				smart_str(new_obj['id']),
-				smart_str(new_obj['type']),
-				smart_str(''),
-				smart_str(''),
-				smart_str(new_obj['path']),
-        		smart_str(new_obj['createddate']),
-    		])
+				writer.writerow([
+					smart_str(new_obj['id']),
+					smart_str(new_obj['type']),
+					smart_str(''),
+					smart_str(''),
+					smart_str(new_obj['path']),
+	        		smart_str(new_obj['createddate']),
+	    		])
 
     return response
 
