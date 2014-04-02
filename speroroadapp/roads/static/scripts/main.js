@@ -81,11 +81,11 @@ var roads = {
 			if (roads.reports[i].id == obj) {
 
 				var levantamento = roads.reports[i];
-				var occurrencias = levantamento.occurrences;
+				var ocurrencias = levantamento.occurrences;
 
-				for(var j = 0; j < occurrencias.length; j++){
+				for(var j = 0; j < ocurrencias.length; j++){
 
-					var ocurrencia = occurrencias[i];
+					var ocurrencia = ocurrencias[j];
 
 					var string = '<div class="row occurrencia" id='+ocurrencia.id +'>'
 					+ '<div class="large-8 medium-8 small-12 columns con_report"' +'>'
@@ -102,20 +102,20 @@ var roads = {
 						this.addOccurence(ocurrencia);
 					}
 					else{
-						this.addPath(ocurrencia);
+						//this.addPath(ocurrencia);
 					}
 
 				}
 			}
 		}
 
-		var bounds = new google.maps.LatLngBounds();
+		// var bounds = new google.maps.LatLngBounds();
 
-		for(var i = 0; i < this.markerBounds.length; i++) {
-			bounds.extend(this.markerBounds[i]);
-		}
+		// for(var i = 0; i < this.markerBounds.length; i++) {
+		// 	bounds.extend(this.markerBounds[i]);
+		// }
 
-		this.map.fitBounds(bounds);
+		// this.map.fitBounds(bounds);
 
 	},
 
@@ -193,6 +193,7 @@ var roads = {
 		  	
 		  	
 	  	});
+	  	console.log("push marker");
 	  	window.markers.push(marker);
 
 	},
