@@ -26,6 +26,9 @@ def rest(request, ident):
 		if int(ident) == 0:
 			return create(request)
 
+	elif request.method == 'DELETE':
+		return delete(request, ident)
+
 	else:
 		return HttpResponse(json.dumps({
 									'success': False, 
@@ -193,8 +196,18 @@ def export_csv(request):
 
     return response
 
-#export_csv.short_description = u"Export CSV"
+def delete(request, ident):
+	try:
 
+		db.levantamentos.remove({id : ident })
+
+		return HttpResponse(json.dumps({'success': True}), 
+	 				content_type="json")
+	except:
+ 		return HttpResponse(json.dumps({
+								'success': False, 
+								'msg': 'Does not exist.'
+							}), content_type='json')
 
 
 
