@@ -2,7 +2,7 @@ console.log("ola");
 
 var roads = {
 
-	occurrences: {},
+	reports: {},
 
 	markerBounds: [],
 
@@ -13,7 +13,7 @@ var roads = {
 		var that = this;
 
 		$.get('/speroroadapp/0/', function(data) {
-			window.roads.occurrences = data;
+			window.roads.reports = data;
 			for(var i = 0; i < data.length;i++){
 				var string = '<div class="row ocorrencia" id='+data[i].id +'>'
 				+ '<div class="large-8 medium-8 small-12 columns con_report"' +'>'
@@ -59,14 +59,15 @@ var roads = {
 					console.log("Export id dentro"+id);
 				});    
 				botaoView.click(function(){
+					
 					id = ocorrencia.attr("id");
 					roads.addOccurrenceToMap(id);
 					var info = ocorrencia.find(".con_report");
 					var report = info.find(".report");
-					console.log(report.attr("id"));
+					console.log(report.attr("id"));	
 					$('#'+report.attr("id")+'').attr('style', 'background-color: green !important; height:80px;');
-
 					console.log("View id dentro"+id);
+
 				});        
 			});	
 		});
@@ -74,16 +75,17 @@ var roads = {
 
 	addOccurrenceToMap: function(obj) {
 
+		//this.removeAllOcurrences();
 
-		for(var i = 0; i<roads.occurrences.length; i++){
-			if (roads.occurrences[i].id == obj) {
-				if(roads.occurrences[i].type == "single"){
+		for(var i = 0; i<roads.reports.length; i++){
+			if (roads.reports[i].id == obj) {
+				if(roads.reports[i].type == "single"){
 					console.log("single");
 
-					this.addOccurence(roads.occurrences[i]);
+					this.addOccurence(roads.reports[i]);
 				}
 				else{
-					this.addPath(roads.occurrences[i]);
+					this.addPath(roads.reports[i]);
 				}
 			}
 		}
@@ -100,6 +102,7 @@ var roads = {
 
 	removeAllOcurrences: function() {
 		this.setAllMap(null);
+		this.markerBounds = [];
 	},
 
 	removeCurrentOcurrence: function() {
@@ -108,7 +111,7 @@ var roads = {
 
 	setAllMap: function(map){
 		for (var i = 0; i < window.markers.length; i++) {
-			this.markers[i].setMap(window.map);
+			window.markers[i].setMap(map);
 		}
 	},
 
@@ -116,7 +119,7 @@ var roads = {
 
 		console.log("1");
 
-
+		this.removeAllOcurrences();
 
 		var latitude = obj.latitude;
 		var longitude = obj.longitude;
@@ -144,6 +147,8 @@ var roads = {
 			map: this.map,
 			title: obj.type
 		});
+
+		this.map.panBy(-Math.floor(this.map.getDiv().offsetWidth/10),3);
 
 		console.log("4");
 

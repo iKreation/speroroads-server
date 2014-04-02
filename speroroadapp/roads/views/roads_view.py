@@ -7,6 +7,7 @@ import csv
 from django.utils.encoding import smart_str
 
 import time
+from random import randrange
 
 client = MongoClient('mongodb://moth.dec.uc.pt:27017')
 db = client['speroroads']
@@ -42,26 +43,32 @@ def roads_list(request):
 		
 		new_obj = {}
 
+		new_obj['id'] = l['id']
+		new_obj['name'] = l['name']
+		new_obj['occurrences'] = l['occurrences']
+
 		
-		if l['type'] == 'single':
+		# if l['type'] == 'single':
 
 
-			new_obj['id'] = l['id']
-			new_obj['prob_id'] = l['prob_id']
-			new_obj['latitude'] = l['position']['coords']['latitude']
-			new_obj['longitude'] = l['position']['coords']['longitude']
-			new_obj['type'] = l['type']
-			new_obj['createddate'] = l['createddate']
-			lista.append(new_obj)
+		# 	new_obj['id'] = l['id']
+		# 	new_obj['prob_id'] = l['prob_id']
+		# 	new_obj['latitude'] = l['position']['coords']['latitude']
+		# 	new_obj['longitude'] = l['position']['coords']['longitude']
+		# 	new_obj['type'] = l['type']
+		# 	new_obj['createddate'] = l['createddate']
+		# 	lista.append(new_obj)
 
-		else:
+		# else:
 
-			new_obj['id'] = l['id']
-			new_obj['prob_id'] = l['prob_id']
-			new_obj['type'] = l['type']
-			new_obj['createddate'] = l['createddate']
-			new_obj['path'] = l['path']
-			lista.append(new_obj)
+		# 	new_obj['id'] = l['id']
+		# 	new_obj['prob_id'] = l['prob_id']
+		# 	new_obj['type'] = l['type']
+		# 	new_obj['createddate'] = l['createddate']
+		# 	new_obj['path'] = l['path']
+		# 	lista.append(new_obj)
+
+		lista.append(new_obj)
 
 		
 
@@ -76,9 +83,6 @@ def create(request):
 
 	if request.method == 'POST':
 
-	 
-
-
 		data = request.POST['levantamento']
 
 		levantamento = json.loads(data)
@@ -86,13 +90,21 @@ def create(request):
 		lista=[]
 
 		for l in levantamento:
+
 			new_obj={}
 			new_obj['id'] = int(round(time.time() * 1000))
-			new_obj['prob_id'] = l['prob_id']
-			new_obj['position'] = l['position']
-			new_obj['path'] = l['path']
-			new_obj['createddate'] = l['createddate']
-			new_obj['type'] = l['type']
+			new_obj['name'] = l['name']
+
+			for o in l['occurrences']:
+
+				print o
+
+				occ_id = {}
+				occ_id['id'] = int(round(time.time() * 1000)+randrange(1,1000000)+randrange(1000000,2000000))
+				o['id'] = occ_id['id']
+
+
+			new_obj['occurrences'] = l['occurrences']
 			lista.append(new_obj)
 
 
