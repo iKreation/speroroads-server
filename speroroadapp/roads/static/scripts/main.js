@@ -10,9 +10,6 @@ var roads = {
 
 
 
-
-
-
 	getReports: function() {
 		var that = this;
 
@@ -91,9 +88,11 @@ var roads = {
 
 					var ocurrencia = ocurrencias[j];
 
-					var string = '<div class="row occurrencia" id='+ocurrencia.id +'>'
-					+ '<div class="large-8 medium-8 small-12 columns con_report"' +'>'
-					+ '<div class="callout report " style="height:80px;" id='+ocurrencia.id +"1"+'>'
+					var string = 
+
+					'<div class="row occurrencia" style="margin-top:-100px" id='+ocurrencia.id +'>'
+					+ '<div class="large-7 medium-7 small-10 columns occu_report" ' +'>'
+					+ '<div class="callout report " style="height:80px; margin-left:5%; margin-top:10px;" id='+ocurrencia.id +"1"+'>'
 					+ '<p><b>' + ocurrencia.id + '</b></p><p>'+ ocurrencia.type + ' </p>'
 					+ '</div>'
 					+ '</div>'
@@ -112,17 +111,17 @@ var roads = {
 				}
 			}
 
-			var bounds = new google.maps.LatLngBounds();
+		var bounds = new google.maps.LatLngBounds();
 
 		for(var i = 0; i < this.markerBounds.length; i++) {
 			bounds.extend(this.markerBounds[i]);
-		 }
-
-		this.map.fitBounds(bounds);
 		}
 
-		
 
+		this.map.fitBounds(bounds);
+		this.map.setZoom(15);
+
+		}
 	},
 
 	removeAllOcurrences: function() {
@@ -138,6 +137,7 @@ var roads = {
 		for (var i = 0; i < window.markers.length; i++) {
 			window.markers[i].setMap(map);
 		}
+
 	},
 
 	addOccurence: function(obj) {
@@ -170,11 +170,14 @@ var roads = {
 
 		var marker = new google.maps.Marker({
 			position: myLatlng,
+			zoom: 100,
 			map: this.map,
 			title: obj.type
+
 		});
 
-		this.map.panBy(-Math.floor(this.map.getDiv().offsetWidth/10),3);
+
+
 
 		console.log("4");
 
@@ -231,6 +234,8 @@ var roads = {
 		console.log(polyline)
 		console.log(this.map)
 		polyline.setMap(this.map);
+
+
 
 	}
 }
