@@ -1,5 +1,6 @@
 Django==1.6.2
 freeze==0.8.0
+gunicorn==18.0
 pymongo==2.6.3
 simplejson==3.3.3
 six==1.6.1
