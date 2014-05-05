@@ -48,7 +48,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'roads',
     'gunicorn'
-    
+    'speroroadapp'
+
 )
 
 MIDDLEWARE_CLASSES = (
