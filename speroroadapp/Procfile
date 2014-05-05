@@ -1,1 +1,2 @@
-web: python speroroadapp/manage.py run_gunicorn -b 0.0.0.0: -w 3shabda
+web: gunicorn -b 0.0.0.0:8000 --pythonpath=./speroroadsapp speroroadsapp.wsgi:application
+
