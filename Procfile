@@ -1,2 +1,2 @@
-web: gunicorn speroroadapp.wsgi
+web: gunicorn -b 0.0.0.0:8000 --pythonpath=./speroroadapp speroroadapp.wsgi:application
 

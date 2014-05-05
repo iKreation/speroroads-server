@@ -47,9 +47,8 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'roads',
-    'gunicorn'
+    'gunicorn',
     'speroroadapp'
-
 )
 
 MIDDLEWARE_CLASSES = (
