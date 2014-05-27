@@ -45,9 +45,14 @@ def roads_list(request):
 		
 		new_obj = {}
 
-		new_obj['id'] = l['id']
-		new_obj['name'] = l['name']
-		new_obj['occurrences'] = l['occurrences']
+		if l.has_key("id"):
+			new_obj['id'] = l['id']
+		if l.has_key("name"):
+			new_obj['name'] = l['name']
+		if l.has_key("subRoutes"):
+			new_obj['subRoutes'] = l['subRoutes']
+		if l.has_key("occurrences"):
+			new_obj['occurrences'] = l['occurrences']
 
 		
 		# if l['type'] == 'single':
@@ -85,29 +90,34 @@ def create(request):
 
 	if request.method == 'POST':
 
-		data = request.POST['levantamento']
+		data = request.POST['route']
 
-		levantamento = json.loads(data)
+		route = json.loads(data)
 
 		lista=[]
 
-		for l in levantamento:
-
+		for l in route:
 			new_obj={}
-			new_obj['id'] = int(round(time.time() * 1000))
+			#new_obj['id'] = int(round(time.time() * 1000))
+			new_obj['id'] = l['id']
 			new_obj['name'] = l['name']
 
-			for o in l['occurrences']:
 
-				print o
+			#for o in l['occurrences']:
 
-				occ_id = {}
-				occ_id['id'] = int(round(time.time() * 1000)+randrange(1,1000000)+randrange(1000000,2000000))
-				o['id'] = occ_id['id']
+				#print o
 
 
+				#occ_id = {}
+				#occ_id['id'] = int(round(time.time() * 1000)+randrange(1,1000000)+randrange(1000000,2000000))
+				#o['id'] = occ_id['id']
+
+
+
+			new_obj['subRoutes'] = l['subRoutes']
 			new_obj['occurrences'] = l['occurrences']
 			lista.append(new_obj)
+
 
 
 
@@ -118,7 +128,9 @@ def create(request):
 									'success': True, 
 									'msg': 'Success'
 								}), content_type='json')
-		except:
+		except Exception as e:
+			print "deu bode"
+			print str(e)
 			return HttpResponse(json.dumps({
 									'success': False, 
 									'msg': 'An error has occurred.'
