@@ -433,7 +433,10 @@ roads.editRoute = function(options) {
 
 roads.getCSV = function(options) {
 	var r_id = options.id;
-	// get CSV
+	window.open(
+		"/export/"+r_id+"/",
+		"_blank"
+	);
 } 
 
 roads.triggerEvents = function() {
@@ -484,10 +487,9 @@ roads.triggerEvents = function() {
 		
 		botaoExport.click(function(){
 			id = route.attr("id");
-			window.open(
-				"/export/"+id+"/",
-				"_blank"
-			);
+			self.getCSV({
+				id: id
+			});
 		});    
 		
 		botaoView.click(function() {
