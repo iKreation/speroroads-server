@@ -25,6 +25,8 @@ def rest(request, ident):
 	elif request.method == 'POST':
 		if int(ident) == 0:
 			return create(request)
+		else:
+			return update(request, ident)
 
 	elif request.method == 'DELETE':
 		return delete(request, ident)
@@ -45,9 +47,14 @@ def roads_list(request):
 		
 		new_obj = {}
 
-		new_obj['id'] = l['id']
-		new_obj['name'] = l['name']
-		new_obj['occurrences'] = l['occurrences']
+		if l.has_key("id"):
+			new_obj['id'] = l['id']
+		if l.has_key("name"):
+			new_obj['name'] = l['name']
+		if l.has_key("subRoutes"):
+			new_obj['subRoutes'] = l['subRoutes']
+		if l.has_key("occurrences"):
+			new_obj['occurrences'] = l['occurrences']
 
 		
 		# if l['type'] == 'single':
@@ -85,28 +92,35 @@ def create(request):
 
 	if request.method == 'POST':
 
-		data = request.POST['levantamento']
+		data = request.POST['route']
 
-		levantamento = json.loads(data)
+		route = json.loads(data)
 
 		lista=[]
 
-		for l in levantamento:
-
+		for l in route:
+			
 			new_obj={}
-			new_obj['id'] = int(round(time.time() * 1000))
+			#new_obj['id'] = int(round(time.time() * 1000))
+			new_obj['id'] = l['id']
 			new_obj['name'] = l['name']
 
-			for o in l['occurrences']:
+
+			#for o in l['occurrences']:
+
+				#print o
 
 
-				occ_id = {}
-				occ_id['id'] = int(round(time.time() * 1000)+randrange(1,1000000)+randrange(1000000,2000000))
-				o['id'] = occ_id['id']
+				#occ_id = {}
+				#occ_id['id'] = int(round(time.time() * 1000)+randrange(1,1000000)+randrange(1000000,2000000))
+				#o['id'] = occ_id['id']
 
 
+
+			new_obj['subRoutes'] = l['subRoutes']
 			new_obj['occurrences'] = l['occurrences']
 			lista.append(new_obj)
+
 
 
 
@@ -117,7 +131,9 @@ def create(request):
 									'success': True, 
 									'msg': 'Success'
 								}), content_type='json')
-		except:
+		except Exception as e:
+			print "deu bode"
+			print str(e)
 			return HttpResponse(json.dumps({
 									'success': False, 
 									'msg': 'An error has occurred.'
@@ -128,72 +144,86 @@ def create(request):
 									'msg': 'Invalid request method.'
 								}), content_type='json')
 
-def export_csv(request):
-    
-    #data = request.POST['levantamento']
+def export_csv(request, ident):
+	response = HttpResponse(content_type='text/csv')
+	response['Content-Disposition'] = 'attachment; filename=export.csv'
+	writer = csv.writer(response, csv.excel)
+	response.write(u'\ufeff'.encode('utf8'))
 
-    #data = [{'type' : 'single' , 'position' : {'coords' : {'latitude' : '99' , 'longitude' : '9999'}} , 'createddate' : 'laparamarco'}]
-    
+	routes = db.levantamentos.find({"id" : int(ident)})
+	route = routes[0]
 
-
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=export.csv'
-    writer = csv.writer(response, csv.excel)
-    response.write(u'\ufeff'.encode('utf8'))
-
-    writer.writerow([
-
+	writer.writerow([
     	smart_str(u"ID"),
-    	smart_str(u"Type"),
-    	smart_str(u"Latitude"),
-    	smart_str(u"Longitude"),
-    	smart_str(u"Path"),
-    	smart_str(u"Created Date"),
-
+    	smart_str(u"Name")
     ])
-    
+
+	new_obj = {}
+	new_obj['id'] = route['id']
+	new_obj['name'] = route['name']
+
+	writer.writerow([
+		smart_str(new_obj['id']),
+		smart_str(new_obj['name'])
+	]) 
 
 
-    for l in db.levantamentos.find():
+	writer.writerow([
+		smart_str(u"Name"),
+		smart_str(u"Created Date"),
+		smart_str(u"Instance ID"),
+		smart_str(u"path"),
+		smart_str(u"Timestamp"),
+		smart_str(u"Coords"),
+		smart_str(u"Type"),
+		smart_str(u"ID")
+	])
 
-    	for o in l['occurrences']:
+	for o in route['occurrences']:		
 		
-			new_obj = {}
+		new_obj['name'] = o['name']
+		new_obj['createddate'] = o['createddate']
+		new_obj['instance_id'] = o['instance_id']
+		new_obj['path'] = o['path']
+		new_obj['timestamp'] = o['position']['timestamp']
+		new_obj['coords'] = o['position']['coords']
+		new_obj['type'] = o['type']
+		new_obj['id'] = o['id']
 
-			
-			if o['type'] == 'single':
-
-				new_obj['id'] = o['id']
-				new_obj['latitude'] = o['position']['coords']['latitude']
-				new_obj['longitude'] = o['position']['coords']['longitude']
-				new_obj['type'] = o['type']
-				new_obj['createddate'] = o['createddate']
-
-				writer.writerow([
-					smart_str(new_obj['id']),
+		writer.writerow([
+					smart_str(new_obj['name']),
+	        		smart_str(new_obj['createddate']),
+	        		smart_str(new_obj['instance_id']),
+	        		smart_str(new_obj['path']),
+	        		smart_str(new_obj['timestamp']),
+	        		smart_str(str(new_obj['coords'])),
 	        		smart_str(new_obj['type']),
-	        		smart_str(new_obj['latitude']),
-	        		smart_str(new_obj['longitude']),
-	        		smart_str(''),
-	        		smart_str(new_obj['createddate']),
-	    		])
+	        		smart_str(new_obj['id'])
+	    ])
 
-			else:
-				new_obj['id'] = o['id']
-				new_obj['type'] = o['type']
-				new_obj['createddate'] = o['createddate']
-				new_obj['path'] = o['path']
+	writer.writerow([
 
-				writer.writerow([
-					smart_str(new_obj['id']),
-					smart_str(new_obj['type']),
-					smart_str(''),
-					smart_str(''),
-					smart_str(new_obj['path']),
-	        		smart_str(new_obj['createddate']),
-	    		])
+		smart_str(u"Timestamp"),
+		smart_str(u"Coords")
 
-    return response
+		])
+
+	for l in route['subRoutes'][0]:
+
+		print l
+
+		new_obj['timestamp'] = l['timestamp']
+		new_obj['coords'] = l['coords']
+
+		writer.writerow([
+			smart_str(new_obj['timestamp']),
+			smart_str(str(new_obj['coords']))
+
+			])
+
+
+
+	return response
 
 def delete(request, ident):
 	try:
@@ -208,6 +238,50 @@ def delete(request, ident):
 								'msg': 'Does not exist.'
 							}), content_type='json')
 
+
+@csrf_exempt
+def update(request, ident):
+	# find the object and check if exists
+ 	# update the object
+
+ 	if request.method == 'POST':
+
+ 		data = request.POST['route']
+
+		route = json.loads(data)
+
+		#for l in route:
+
+ 		
+		#keeps the same id
+		id = int(ident)
+ 		name = route['name']
+		subRoutes = route['subRoutes']
+		occurrences = route['occurrences']
+
+
+	 	try:
+
+	 		db.levantamentos.update(
+	 			
+	 			{"id" : int(ident)},
+	 			{
+	 				"id" : id,
+		 			"name" : name,
+		 			"subRoutes" : subRoutes,
+		 			"occurrences" : occurrences
+		 		},
+
+	 		)
+
+
+	 		return HttpResponse(json.dumps({'success': True}), 
+	 				content_type="json")
+	 	except:
+	 		return HttpResponse(json.dumps({
+									'success': False, 
+									'msg': 'Does not exist.'
+								}), content_type='json')
 
 
 
