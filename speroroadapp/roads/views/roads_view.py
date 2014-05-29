@@ -144,82 +144,86 @@ def create(request):
 									'msg': 'Invalid request method.'
 								}), content_type='json')
 
-def export_csv(request):
-    
-    #data = request.POST['levantamento']
+def export_csv(request, ident):
+	response = HttpResponse(content_type='text/csv')
+	response['Content-Disposition'] = 'attachment; filename=export.csv'
+	writer = csv.writer(response, csv.excel)
+	response.write(u'\ufeff'.encode('utf8'))
 
-    #data = [{'type' : 'single' , 'position' : {'coords' : {'latitude' : '99' , 'longitude' : '9999'}} , 'createddate' : 'laparamarco'}]
-    
+	routes = db.levantamentos.find({"id" : int(ident)})
+	route = routes[0]
 
-
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename=export.csv'
-    writer = csv.writer(response, csv.excel)
-    response.write(u'\ufeff'.encode('utf8'))
-
-    writer.writerow([
-
+	writer.writerow([
     	smart_str(u"ID"),
-    	#smart_str(u"Type"),
-    	#smart_str(u"Latitude"),
-    	#smart_str(u"Longitude"),
-    	#smart_str(u"Path"),
-    	#smart_str(u"Created Date"),
-    	smart_str(u"Name"),
-    	smart_str(u"subRoutes"),
-    	smart_str(u"occurrences"),
-
+    	smart_str(u"Name")
     ])
-    
+
+	new_obj = {}
+	new_obj['id'] = route['id']
+	new_obj['name'] = route['name']
+
+	writer.writerow([
+		smart_str(new_obj['id']),
+		smart_str(new_obj['name'])
+	]) 
 
 
-    for l in db.levantamentos.find():
+	writer.writerow([
+		smart_str(u"Name"),
+		smart_str(u"Created Date"),
+		smart_str(u"Instance ID"),
+		smart_str(u"path"),
+		smart_str(u"Timestamp"),
+		smart_str(u"Coords"),
+		smart_str(u"Type"),
+		smart_str(u"ID")
+	])
 
-    	new_obj = {}
-
-    	new_obj['id'] = l['id']
-    	new_obj['name'] = l['name']
-
-
-
-    	for o in l['occurrences']:
+	for o in route['occurrences']:		
 		
-			#new_obj = {}
+		new_obj['name'] = o['name']
+		new_obj['createddate'] = o['createddate']
+		new_obj['instance_id'] = o['instance_id']
+		new_obj['path'] = o['path']
+		new_obj['timestamp'] = o['position']['timestamp']
+		new_obj['coords'] = o['position']['coords']
+		new_obj['type'] = o['type']
+		new_obj['id'] = o['id']
 
-			
-			if o['type'] == 'single':
-
-				new_obj['id'] = o['id']
-				new_obj['latitude'] = o['position']['coords']['latitude']
-				new_obj['longitude'] = o['position']['coords']['longitude']
-				new_obj['type'] = o['type']
-				new_obj['createddate'] = o['createddate']
-
-				writer.writerow([
-					smart_str(new_obj['id']),
+		writer.writerow([
+					smart_str(new_obj['name']),
+	        		smart_str(new_obj['createddate']),
+	        		smart_str(new_obj['instance_id']),
+	        		smart_str(new_obj['path']),
+	        		smart_str(new_obj['timestamp']),
+	        		smart_str(str(new_obj['coords'])),
 	        		smart_str(new_obj['type']),
-	        		smart_str(new_obj['latitude']),
-	        		smart_str(new_obj['longitude']),
-	        		smart_str(''),
-	        		smart_str(new_obj['createddate']),
-	    		])
+	        		smart_str(new_obj['id'])
+	    ])
 
-			else:
-				new_obj['id'] = o['id']
-				new_obj['type'] = o['type']
-				new_obj['createddate'] = o['createddate']
-				new_obj['path'] = o['path']
+	writer.writerow([
 
-				writer.writerow([
-					smart_str(new_obj['id']),
-					smart_str(new_obj['type']),
-					smart_str(''),
-					smart_str(''),
-					smart_str(new_obj['path']),
-	        		smart_str(new_obj['createddate']),
-	    		])
+		smart_str(u"Timestamp"),
+		smart_str(u"Coords")
 
-    return response
+		])
+
+	for l in route['subRoutes'][0]:
+
+		print l
+
+		new_obj['timestamp'] = l['timestamp']
+		new_obj['coords'] = l['coords']
+
+		writer.writerow([
+			smart_str(new_obj['timestamp']),
+			smart_str(str(new_obj['coords']))
+
+			])
+
+
+
+	return response
 
 def delete(request, ident):
 	try:
