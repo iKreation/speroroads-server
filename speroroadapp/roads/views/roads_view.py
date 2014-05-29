@@ -25,6 +25,8 @@ def rest(request, ident):
 	elif request.method == 'POST':
 		if int(ident) == 0:
 			return create(request)
+		else:
+			return update(request, ident)
 
 	elif request.method == 'DELETE':
 		return delete(request, ident)
@@ -97,6 +99,7 @@ def create(request):
 		lista=[]
 
 		for l in route:
+			
 			new_obj={}
 			#new_obj['id'] = int(round(time.time() * 1000))
 			new_obj['id'] = l['id']
@@ -157,11 +160,14 @@ def export_csv(request):
     writer.writerow([
 
     	smart_str(u"ID"),
-    	smart_str(u"Type"),
-    	smart_str(u"Latitude"),
-    	smart_str(u"Longitude"),
-    	smart_str(u"Path"),
-    	smart_str(u"Created Date"),
+    	#smart_str(u"Type"),
+    	#smart_str(u"Latitude"),
+    	#smart_str(u"Longitude"),
+    	#smart_str(u"Path"),
+    	#smart_str(u"Created Date"),
+    	smart_str(u"Name"),
+    	smart_str(u"subRoutes"),
+    	smart_str(u"occurrences"),
 
     ])
     
@@ -169,9 +175,16 @@ def export_csv(request):
 
     for l in db.levantamentos.find():
 
+    	new_obj = {}
+
+    	new_obj['id'] = l['id']
+    	new_obj['name'] = l['name']
+
+
+
     	for o in l['occurrences']:
 		
-			new_obj = {}
+			#new_obj = {}
 
 			
 			if o['type'] == 'single':
@@ -221,6 +234,50 @@ def delete(request, ident):
 								'msg': 'Does not exist.'
 							}), content_type='json')
 
+
+@csrf_exempt
+def update(request, ident):
+	# find the object and check if exists
+ 	# update the object
+
+ 	if request.method == 'POST':
+
+ 		data = request.POST['route']
+
+		route = json.loads(data)
+
+		#for l in route:
+
+ 		
+		#keeps the same id
+		id = int(ident)
+ 		name = route['name']
+		subRoutes = route['subRoutes']
+		occurrences = route['occurrences']
+
+
+	 	try:
+
+	 		db.levantamentos.update(
+	 			
+	 			{"id" : int(ident)},
+	 			{
+	 				"id" : id,
+		 			"name" : name,
+		 			"subRoutes" : subRoutes,
+		 			"occurrences" : occurrences
+		 		},
+
+	 		)
+
+
+	 		return HttpResponse(json.dumps({'success': True}), 
+	 				content_type="json")
+	 	except:
+	 		return HttpResponse(json.dumps({
+									'success': False, 
+									'msg': 'Does not exist.'
+								}), content_type='json')
 
 
 
