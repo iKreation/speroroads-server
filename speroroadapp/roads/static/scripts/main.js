@@ -1,226 +1,10 @@
-/*var test_routes = [
-{
-      "subRoutes": [
-        [
-          {
-            "timestamp": "2014-05-02T14:33:20.731Z",
-            "coords": {
-              "altitude": 0,
-              "longitude": -122.406417,
-              "latitude": 37.785834,
-              "altitudeAccuracy": -1,
-              "speed": -1,
-              "heading": -1,
-              "accuracy": 5
-            }
-          },
-          {
-            "timestamp": "2014-05-02T14:33:20.731Z",
-            "coords": {
-              "altitude": 0,
-              "longitude": -122.406417,
-              "latitude": 37.785834,
-              "altitudeAccuracy": -1,
-              "speed": -1,
-              "heading": -1,
-              "accuracy": 5
-            }
-          },
-          {
-            "timestamp": "2014-05-02T14:33:20.940Z",
-            "coords": {
-              "altitude": 0,
-              "longitude": -122.406417,
-              "latitude": 37.785834,
-              "altitudeAccuracy": -1,
-              "speed": -1,
-              "heading": -1,
-              "accuracy": 5
-            }
-          },
-          {
-            "timestamp": "2014-05-02T14:33:21.732Z",
-            "coords": {
-              "altitude": 0,
-              "longitude": -122.406417,
-              "latitude": 37.785834,
-              "altitudeAccuracy": -1,
-              "speed": -1,
-              "heading": -1,
-              "accuracy": 5
-            }
-          },
-          {
-            "timestamp": "2014-05-02T14:33:21.880Z",
-            "coords": {
-              "altitude": 0,
-              "longitude": -122.406417,
-              "latitude": 37.785834,
-              "altitudeAccuracy": -1,
-              "speed": -1,
-              "heading": -1,
-              "accuracy": 5
-            }
-          },
-          {
-            "timestamp": "2014-05-02T14:33:22.732Z",
-            "coords": {
-              "altitude": 0,
-              "longitude": -122.406417,
-              "latitude": 37.785834,
-              "altitudeAccuracy": -1,
-              "speed": -1,
-              "heading": -1,
-              "accuracy": 5
-            }
-          },
-          {
-            "timestamp": "2014-05-02T14:33:24.153Z",
-            "coords": {
-              "altitude": 0,
-              "longitude": -122.406417,
-              "latitude": 37.785834,
-              "altitudeAccuracy": -1,
-              "speed": -1,
-              "heading": -1,
-              "accuracy": 5
-            }
-          },
-          {
-            "timestamp": "2014-05-02T14:33:24.735Z",
-            "coords": {
-              "altitude": 0,
-              "longitude": -122.406417,
-              "latitude": 37.785834,
-              "altitudeAccuracy": -1,
-              "speed": -1,
-              "heading": -1,
-              "accuracy": 5
-            }
-          },
-          {
-            "timestamp": "2014-05-02T14:33:25.154Z",
-            "coords": {
-              "altitude": 0,
-              "longitude": -122.406417,
-              "latitude": 37.785834,
-              "altitudeAccuracy": -1,
-              "speed": -1,
-              "heading": -1,
-              "accuracy": 5
-            }
-          },
-          {
-            "timestamp": "2014-05-02T14:33:25.735Z",
-            "coords": {
-              "altitude": 0,
-              "longitude": -122.406417,
-              "latitude": 37.785834,
-              "altitudeAccuracy": -1,
-              "speed": -1,
-              "heading": -1,
-              "accuracy": 5
-            }
-          }
-        ]
-      ],
-      "occurrences": [
-        {
-          "name": "Rodeiras - Tipo 1",
-          "createddate": "2014-05-02T14:33:20.944Z",
-          "instance_id": "11",
-          "path": null,
-          "position": {
-            "timestamp": "2014-05-02T14:33:20.940Z",
-            "coords": {
-              "altitude": 0,
-              "longitude": -122.406417,
-              "latitude": 37.785834,
-              "altitudeAccuracy": -1,
-              "speed": -1,
-              "heading": -1,
-              "accuracy": 5
-            }
-          },
-          "type": "single",
-          "id": 1399041200944
-        },
-        {
-          "name": "Peladas etc - Tipo 2",
-          "createddate": "2014-05-02T14:33:22.736Z",
-          "instance_id": "32",
-          "path": null,
-          "position": {
-            "timestamp": "2014-05-02T14:33:22.732Z",
-            "coords": {
-              "altitude": 0,
-              "longitude": -122.406417,
-              "latitude": 37.785834,
-              "altitudeAccuracy": -1,
-              "speed": -1,
-              "heading": -1,
-              "accuracy": 5
-            }
-          },
-          "type": "single",
-          "id": 1399041202736
-        },
-        {
-          "name": "Repara\u00e7\u00f5es - Tipo 1",
-          "createddate": "2014-05-02T14:33:25.157Z",
-          "instance_id": "51",
-          "path": null,
-          "position": {
-            "timestamp": "2014-05-02T14:33:25.154Z",
-            "coords": {
-              "altitude": 0,
-              "longitude": -122.406417,
-              "latitude": 37.785834,
-              "altitudeAccuracy": -1,
-              "speed": -1,
-              "heading": -1,
-              "accuracy": 5
-            }
-          },
-          "type": "single",
-          "id": 1399041205157
-        },
-        {
-          "name": "Repara\u00e7\u00f5es - Tipo 2",
-          "createddate": "2014-05-02T14:33:26.124Z",
-          "instance_id": "52",
-          "path": null,
-          "position": {
-            "timestamp": "2014-05-02T14:33:25.735Z",
-            "coords": {
-              "altitude": 0,
-              "longitude": -122.406417,
-              "latitude": 37.785834,
-              "altitudeAccuracy": -1,
-              "speed": -1,
-              "heading": -1,
-              "accuracy": 5
-            }
-          },
-          "type": "single",
-          "id": 1399041206124
-        }
-      ],
-      "id": 1399041146501,
-      "name": "2\/4\/2014 15:32"
-    }]
-*/
-
 var roads = {
 	routes: [],
 	reports: {},
-
 	markerBounds: [],
+	map: null,
 
 	addOccurrenceToMap: function(obj) {
-
-		//this.removeAllOcurrences();
-
 		for(var i = 0; i<roads.reports.length; i++){
 			if (roads.reports[i].id == obj) {
 
@@ -284,18 +68,12 @@ var roads = {
 	},
 
 	addOccurence: function(obj) {
-
-		console.log("1");
-		console.log(obj);
-
-		//this.removeAllOcurrences();
-
+		var self = this;
 		var latitude = obj.position.coords.latitude;
 		var longitude = obj.position.coords.longitude;
 
 
 		var myLatlng = new google.maps.LatLng(latitude,longitude);
-		console.log("2");
 
 
 		this.markerBounds.push(new google.maps.LatLng(latitude,longitude));
@@ -314,23 +92,12 @@ var roads = {
 		var marker = new google.maps.Marker({
 			position: myLatlng,
 			zoom: 100,
-			map: this.map,
+			map: self.map,
 			title: obj.type
 
 		});
 
-
-
-
-		console.log("4");
-
-		console.log(marker);
-
 	  	google.maps.event.addListener(marker, 'click', function() {
-	  		console.log(marker);
-	  		console.log(map);
-
-	  		console.log(" n tem, cria ");
 	  		window.currentMarker = marker;
 	  		if(window.infowindow) {
 	  			window.infowindow.close()
@@ -342,13 +109,9 @@ var roads = {
 		  					});
 		  	
 		  	window.infowindow.open(this.map,marker);
-
-		  	
 		  	
 	  	});
-	  	console.log("push marker");
 	  	window.markers.push(marker);
-
 	},
 
 	addPath: function(obj) { 
@@ -372,14 +135,7 @@ var roads = {
 			strokeOpacity: 0.7,
 			strokeWeight: 1
 		});
-		console.log(path);
-		console.log('crl');
-		console.log(polyline)
-		console.log(this.map)
 		polyline.setMap(this.map);
-
-
-
 	}
 }
 
@@ -416,6 +172,7 @@ roads.showOccurrences = function(options) {
 			});
 
 			$(".levantamentos").append(template);
+			self.addOccurence(occurrences[i]);
 		};
 	}
 }
@@ -583,8 +340,41 @@ roads.fetchReports = function() {
 	});
 }
 
+roads.initMaps = function() {
+    var mapOptions = {
+        // How zoomed in you want the map to start at (always required)
+        zoom: 13,
+        center: new google.maps.LatLng(40.20346,-8.447212),
+        mapTypeId: google.maps.MapTypeId.ROADMAP,
+        mapTypeControl: true,
+        mapTypeControlOptions: {
+            style: google.maps.MapTypeControlStyle.VERTICAL_BAR,
+            position: google.maps.ControlPosition.RIGHT_BOTTOM
+        },
+        panControl: true,
+        panControlOptions: {
+            position: google.maps.ControlPosition.LEFT_CENTER
+        },
+        zoomControl: true,
+        zoomControlOptions: {
+            style: google.maps.ZoomControlStyle.LARGE,
+            position: google.maps.ControlPosition.LEFT_CENTER
+        },
+        scaleControl: true,
+        scaleControlOptions: {
+            position: google.maps.ControlPosition.LEFT_CENTER
+        },
+        streetViewControl: true,
+        streetViewControlOptions: {
+            position: google.maps.ControlPosition.LEFT_CENTER
+        },
+	};
+    var mapElement = document.getElementById('map');
+    this.map = new google.maps.Map(mapElement, mapOptions);
+}
+
 $(document).ready(function() {
 	window.markers = [];
-	//roads.getReports();
+	roads.initMaps();
 	roads.fetchReports();
 });
