@@ -5,8 +5,12 @@ from pymongo import MongoClient
 import simplejson as json
 import csv
 from django.utils.encoding import smart_str
-
+from roads.models import *
+import random
+import requests
+import simplejson
 import time
+from bson.objectid import ObjectId
 from random import randrange
 
 client = MongoClient('mongodb://moth.dec.uc.pt:27017')
@@ -37,11 +41,50 @@ def rest(request, ident):
 									'msg': 'Invalid request method.'
 								}), content_type='json')
 
+@csrf_exempt
+def upload(request, ident):
+	if request.method == 'POST':
+		route_id = request.POST['route_id']
+		occ_id = request.POST['occ_id']
+
+		if request.FILES:
+			f = TempFile(temp=request.FILES['file'])
+			f.save()
+		
+		route = db.levantamentos.find_one({'_id':ObjectId(route_id)})
+		
+		if route != None:
+			occs = route["occurrences"]
+			for occ in occs:
+				if str(occ["id"]) == occ_id:
+					occ["photos"].append(f.temp.url)
+					break
+
+			subRoutes = route["subRoutes"]
+			options = route["options"]
+			name = route["name"]
+			route_fake_id = route["id"]
+			
+			db.levantamentos.update({
+				"_id": ObjectId(route_id)
+				},
+				{
+					"_id": ObjectId(route_id),
+					"occurrences": occs,
+					"subRoutes": subRoutes,
+					"name": name,
+					"options": options,
+					"id": route_fake_id
+				})
+			return HttpResponse(simplejson.dumps({'success': True, 'path':f.temp.url, }))
+		else:
+			return HttpResponse(simplejson.dumps({'success': False, "msg":"Route id unknown	."}), content_type="json")
+	else:
+		return HttpResponse(simplejson.dumps({'success': False}), content_type="json")
 
 def roads_list(request):
 
-	
-	lista=[]
+	lista = []
 
 	for l in db.levantamentos.find():
 		
@@ -55,85 +98,37 @@ def roads_list(request):
 			new_obj['subRoutes'] = l['subRoutes']
 		if l.has_key("occurrences"):
 			new_obj['occurrences'] = l['occurrences']
-
+		if l.has_key("options"):
+			new_obj['options'] = l["options"]
 		
-		# if l['type'] == 'single':
-
-
-		# 	new_obj['id'] = l['id']
-		# 	new_obj['prob_id'] = l['prob_id']
-		# 	new_obj['latitude'] = l['position']['coords']['latitude']
-		# 	new_obj['longitude'] = l['position']['coords']['longitude']
-		# 	new_obj['type'] = l['type']
-		# 	new_obj['createddate'] = l['createddate']
-		# 	lista.append(new_obj)
-
-		# else:
-
-		# 	new_obj['id'] = l['id']
-		# 	new_obj['prob_id'] = l['prob_id']
-		# 	new_obj['type'] = l['type']
-		# 	new_obj['createddate'] = l['createddate']
-		# 	new_obj['path'] = l['path']
-		# 	lista.append(new_obj)
-
 		lista.append(new_obj)
-
-		
-
 
 	return HttpResponse(json.dumps(lista), content_type='json')
 
 
 @csrf_exempt
 def create(request):
-	# grant it's a post
-	# read the POSTed data
-
 	if request.method == 'POST':
 
 		data = request.POST['route']
-
 		route = json.loads(data)
 
-		lista=[]
-
-		for l in route:
-			
-			new_obj={}
-			#new_obj['id'] = int(round(time.time() * 1000))
-			new_obj['id'] = l['id']
-			new_obj['name'] = l['name']
-
-
-			#for o in l['occurrences']:
-
-				#print o
-
-
-				#occ_id = {}
-				#occ_id['id'] = int(round(time.time() * 1000)+randrange(1,1000000)+randrange(1000000,2000000))
-				#o['id'] = occ_id['id']
-
-
-
-			new_obj['subRoutes'] = l['subRoutes']
-			new_obj['occurrences'] = l['occurrences']
-			lista.append(new_obj)
-
-
-
-
+		new_obj = {}
+		new_obj['id'] = int(round(time.time() * 1000))
+		new_obj['name'] = route['name']
+		new_obj['options'] = route['options']
+		new_obj['subRoutes'] = route['subRoutes']
+		new_obj['occurrences'] = route['occurrences']
+		
 		try:
-			db.levantamentos.insert(lista)
+			route_id = db.levantamentos.insert(new_obj)
 
 			return HttpResponse(json.dumps({
 									'success': True, 
-									'msg': 'Success'
+									'msg': 'Successfuly added new route',
+									'route_id': str(route_id)
 								}), content_type='json')
 		except Exception as e:
-			print "deu bode"
-			print str(e)
 			return HttpResponse(json.dumps({
 									'success': False, 
 									'msg': 'An error has occurred.'
