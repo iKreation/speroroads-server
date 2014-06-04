@@ -64,7 +64,12 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+	'roads.middleware.crossdomainxhr.XsSharing',
 )
+
+XS_SHARING_ALLOWED_ORIGINS = "*"
+XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
+XS_SHARING_ALLOWED_HEADERS = "*"
 
 ROOT_URLCONF = 'speroroadapp.urls'
 

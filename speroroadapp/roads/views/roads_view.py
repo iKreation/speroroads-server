@@ -146,8 +146,9 @@ def export_csv(request, ident):
 	writer = csv.writer(response, csv.excel)
 	response.write(u'\ufeff'.encode('utf8'))
 
-	routes = db.levantamentos.find({"id" : int(ident)})
-	route = routes[0]
+	routes = db.levantamentos.find_one({"_id" : ObjectId(ident)})
+	print routes
+	route = routes
 
 	writer.writerow([
     	smart_str(u"ID"),
@@ -175,50 +176,39 @@ def export_csv(request, ident):
 		smart_str(u"ID")
 	])
 
-	for o in route['occurrences']:		
-		
-		new_obj['name'] = o['name']
-		new_obj['createddate'] = o['createddate']
-		new_obj['instance_id'] = o['instance_id']
-		new_obj['path'] = o['path']
-		new_obj['timestamp'] = o['position']['timestamp']
-		new_obj['coords'] = o['position']['coords']
-		new_obj['type'] = o['type']
-		new_obj['id'] = o['id']
+	for o in route['occurrences']:
+		if o['type'] == "single":
+			new_obj['name'] = o['name']
+			new_obj['createddate'] = o['createddate']
+			new_obj['instance_id'] = o['instance_id']
+			new_obj['path'] = o['path']
+			if o['position'].has_key('timestamp'):
+				new_obj['timestamp'] = o['position']['timestamp']
+			else:
+				new_obj['timestamp'] = "null"
+			if o['position'].has_key('coords'):
+				new_obj['coords'] = o['position']['coords']
+			else:
+				new_obj['coords'] = "null"
+			if o.has_key('type'):
+				new_obj['type'] = o['type']
+			else:
+				new_obj['type'] = "null"
+			if o.has_key('id'):
+				new_obj['id'] = o['id']
+			else:
+				new_obj['id'] = "null"
 
-		writer.writerow([
-					smart_str(new_obj['name']),
-	        		smart_str(new_obj['createddate']),
-	        		smart_str(new_obj['instance_id']),
-	        		smart_str(new_obj['path']),
-	        		smart_str(new_obj['timestamp']),
-	        		smart_str(str(new_obj['coords'])),
-	        		smart_str(new_obj['type']),
-	        		smart_str(new_obj['id'])
-	    ])
-
-	writer.writerow([
-
-		smart_str(u"Timestamp"),
-		smart_str(u"Coords")
-
-		])
-
-	for l in route['subRoutes'][0]:
-
-		print l
-
-		new_obj['timestamp'] = l['timestamp']
-		new_obj['coords'] = l['coords']
-
-		writer.writerow([
-			smart_str(new_obj['timestamp']),
-			smart_str(str(new_obj['coords']))
-
-			])
-
-
-
+			writer.writerow([
+						smart_str(new_obj['name']),
+		        		smart_str(new_obj['createddate']),
+		        		smart_str(new_obj['instance_id']),
+		        		smart_str(new_obj['path']),
+		        		smart_str(new_obj['timestamp']),
+		        		smart_str(str(new_obj['coords'])),
+		        		smart_str(new_obj['type']),
+		        		smart_str(new_obj['id'])
+		    ])
 	return response
 
 def delete(request, ident):
