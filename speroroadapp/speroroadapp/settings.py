@@ -53,7 +53,12 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'roads.middleware.crossdomainxhr.XsSharing'
 )
+
+XS_SHARING_ALLOWED_ORIGINS = "*"
+XS_SHARING_ALLOWED_METHODS = ['POST','GET','OPTIONS', 'PUT', 'DELETE']
+XS_SHARING_ALLOWED_HEADERS = "*"
 
 ROOT_URLCONF = 'speroroadapp.urls'
 
@@ -88,3 +93,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'roads/media')
+MEDIA_URL = '/media/'
+
