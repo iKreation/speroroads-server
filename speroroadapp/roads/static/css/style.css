@@ -5,12 +5,14 @@ body{
 
 
 #map {
-    width: 1900px !important;
-    height: 2480px;
-    left: -200px;
-    top: -200px; 
+    width: 100% !important;
+    height: 100%; 
     position: absolute;
     z-index: 0;
+}
+
+#map img {
+	max-width: none;
 }
 
 input[type="text"] {
@@ -56,7 +58,10 @@ input[type="text"] {
 
 
 
-
+.report img {
+	margin: 5px;
+	width: calc(50% - 15px);
+}
 
 
 .wrapList{
@@ -68,8 +73,8 @@ input[type="text"] {
 	overflow-x: hidden;
 	overflow-y: scroll;
 	
-	margin-top: 12.500em;
-	height:28.125em;
+	margin-top: 5.500em;
+	height:43.125em;
 
 	z-index:100;
 	position: absolute;
