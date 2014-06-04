@@ -50,19 +50,30 @@ var roads = {
 
 	addPath: function(obj) {
 		var path = [];
-			
+		var self = this;
+
 		for(var i = 0; i < obj.path.length; i++){
 			path.push(new google.maps.LatLng(obj.path[i][0], obj.path[i][1]));
+			var marker = new google.maps.Marker({
+				position: new google.maps.LatLng(obj.path[i][0], obj.path[i][1]),
+				zoom: 100,
+				map: roads.map,
+				title: obj.type
+			});
+			marker.occ_id = obj.id;
+			window.markers.push(marker);
 		}
 
 		var polyline = new google.maps.Polyline({
-
 			path: path,
-			strokeColor: '#0000FF',
-			strokeOpacity: 0.7,
-			strokeWeight: 1
+			geodesic: true,
+			strokeColor: '#FF0000',
+			strokeOpacity: 1.0,
+			strokeWeight: 2
 		});
-		polyline.setMap(roads.map);
+
+		polyline.setMap(self.map);
+		window.polylines.push(polyline);
 	}
 }
 
@@ -87,6 +98,7 @@ roads.removeAllPolylines = function() {
 }
 
 roads.showOccurrences = function(options) {
+	console.log(options);
 	var route_id = options.route_id;
 	var self = this;
 	var route = self.findRoute({
@@ -133,6 +145,7 @@ roads.showOccurrences = function(options) {
 
 			$(".levantamentos[id='"+route_id+"']").append(template);
 
+			//console.log(occurrences[i].type);
 			if (occurrences[i].type == "path") {
 				self.addPath(occurrences[i]);
 			} else {
@@ -166,6 +179,7 @@ roads.triggerEvents = function() {
 	var routes = reports.find('.levantamentos');
 	var self = this;
 	
+	console.log(routes);
 	routes.each(function () {
 
 		var route = $(this);
@@ -173,10 +187,8 @@ roads.triggerEvents = function() {
 		var botaoExport = route.find(".conExport");
 		var botaoView = route.find(".conView");
 		
-		botaoEdit.click(function() {
-			alert("click");
 
-			alert("route id="+route.attr("id"));
+		botaoEdit.click(function() {
 			var r_id = route.attr("id");
 			var route_name = $(".levantamentos[id='"+r_id+"'] #route-name").val();
 			var curr_route = self.findRoute({
@@ -269,10 +281,10 @@ roads.buildOccurrenceTemplate = function(options) {
 }
 
 roads.buildTemplate = function(options) {
-	var template = '<div class="row levantamentos" id='+options.id +'>'
+	var template = '<div class="row levantamentos" id='+options._id +'>'
 				+ '<div class="large-8 medium-8 small-12 columns con_report"' +'>'
-				+ '<div class="callout report" style="height:auto;" id='+options.id +"1"+'>'
-				+ '<p style="margin:10px;"><b style="text-decoration:underline">Route ID: ' + options.id + '</b><br>Name: <input type="text" value="'+ options.name + '" id="route-name"><br>Nº Sub-Routes: '+options.subRoutes.length+'<br>Nº Occurrences: '+options.occurrences.length+'</p>'
+				+ '<div class="callout report" style="height:auto;" id='+options._id +"1"+'>'
+				+ '<p style="margin:10px;"><b style="text-decoration:underline">Route ID: ' + options._id + '</b><br>Name: <input type="text" value="'+ options.name + '" id="route-name"><br>Nº Sub-Routes: '+options.subRoutes.length+'<br>Nº Occurrences: '+options.occurrences.length+'</p>'
 				+ '</div>'
 				+ '</div>'
 				+ '<div class="large-2 medium-2 small-12 columns bts">'
@@ -297,7 +309,7 @@ roads.buildTemplate = function(options) {
 roads.findRoute = function(options) {
 	if (this.routes) {
 		for (var i = 0; i < this.routes.length; i++) {
-			if (this.routes[i].id == options.id) {
+			if (this.routes[i]._id == options.id) {
 				return this.routes[i];
 			}
 		};
@@ -310,14 +322,15 @@ roads.buildReports = function() {
 	console.log(this.routes);
 	for (var i = 0; i < this.routes.length; i++) {
 		var template = this.buildTemplate({
+			_id: this.routes[i]._id,
 			id: this.routes[i].id,
 			name: this.routes[i].name,
 			occurrences: this.routes[i].occurrences,
 			subRoutes: this.routes[i].subRoutes
 		})
 		$('#reports').append(template);
-		self.triggerEvents();
 	};
+	self.triggerEvents();
 }
 
 roads.fetchReports = function() {
