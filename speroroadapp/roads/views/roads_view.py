@@ -57,7 +57,7 @@ def upload(request, ident):
 			occs = route["occurrences"]
 			for occ in occs:
 				if str(occ["id"]) == occ_id:
-					occ["photos"].append(f.temp.url)
+					occ["photos"].append("/media/"+f.temp.url)
 					break
 
 			subRoutes = route["subRoutes"]
@@ -76,7 +76,7 @@ def upload(request, ident):
 					"options": options,
 					"id": route_fake_id
 				})
-			return HttpResponse(simplejson.dumps({'success': True, 'path':f.temp.url, }))
+			return HttpResponse(simplejson.dumps({'success': True, 'path':"/media/"+f.temp.url, }))
 		else:
 			return HttpResponse(simplejson.dumps({'success': False, "msg":"Route id unknown	."}), content_type="json")
 	else:
@@ -89,7 +89,8 @@ def roads_list(request):
 	for l in db.levantamentos.find():
 		
 		new_obj = {}
-
+		if l.has_key("_id"):
+			new_obj["_id"] = str(l["_id"])
 		if l.has_key("id"):
 			new_obj['id'] = l['id']
 		if l.has_key("name"):
