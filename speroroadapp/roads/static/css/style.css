@@ -207,7 +207,15 @@ input[type="text"] {
 
 
 
-
+#graph{
+	position: absolute;
+	z-index: 999999999999;
+	width: 30%;
+	height: 70%;
+	left: 60%;
+	top:130px;
+	display: none;
+}
 
 
 

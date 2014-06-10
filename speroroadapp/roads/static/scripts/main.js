@@ -186,6 +186,7 @@ roads.triggerEvents = function() {
 		var botaoEdit = route.find(".conEdit");
 		var botaoExport = route.find(".conExport");
 		var botaoView = route.find(".conView");
+		var botaoGraph = route.find(".conGraph");
 		
 
 		botaoEdit.click(function() {
@@ -238,7 +239,16 @@ roads.triggerEvents = function() {
 			self.showOccurrences({
 				route_id: id
 			});
-		});        
+		});
+		//todo - função showGraph a escrever na div #graph
+		botaoGraph.click(function() {
+			$("#graph").fadeIn(100);
+			id = route.attr("id");
+			self.showGraph({
+				route_id: id
+			});
+		});
+
 	});
 }
 
@@ -298,6 +308,9 @@ roads.buildTemplate = function(options) {
 				+ '</div>'
 				+ '<div class="conView conten">'
 				+ '<img  style="cursor: pointer" class="img imgView" src="static/img/view.png" />'
+				+ '</div>'
+				+ '<div class="conGraph conten">'
+				+ '<img  style="cursor: pointer" class="img imgGraph" src="static/img/graph.png" />'
 				+ '</div>'
 				+ '</div>'
 				+ '</div>'
