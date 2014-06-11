@@ -109,7 +109,7 @@ roads.showOccurrences = function(options) {
 		self.removeAllPolylines();
 		self.removeAllMarkers();
 
-		$(".levantamentos .occurrencia").remove();
+		$(".occu_wraper .occurrencia").remove();
 
 		//$('#'+route.id+'').attr('style', 'background-color: green !important;');
 	
@@ -143,7 +143,7 @@ roads.showOccurrences = function(options) {
 				});
 			}
 
-			$(".levantamentos[id='"+route_id+"']").append(template);
+			$(".occu_wraper[id='"+route_id+"']").append(template);
 
 			//console.log(occurrences[i].type);
 			if (occurrences[i].type == "path") {
@@ -186,6 +186,7 @@ roads.triggerEvents = function() {
 		var botaoEdit = route.find(".conEdit");
 		var botaoExport = route.find(".conExport");
 		var botaoView = route.find(".conView");
+		var botaoGraph = route.find(".conGraph");
 		
 
 		botaoEdit.click(function() {
@@ -238,37 +239,46 @@ roads.triggerEvents = function() {
 			self.showOccurrences({
 				route_id: id
 			});
-		});        
+		});
+		//todo - função showGraph a escrever na div #graph
+		botaoGraph.click(function() {
+			$("#graph").fadeIn(100);
+			id = route.attr("id");
+			self.showGraph({
+				route_id: id
+			});
+		});
+
 	});
 }
 
 roads.buildOccurrenceTemplate = function(options) {
 
 	if (options.type == "single") {
-		var template = '<div class="row occurrencia" style="margin-top:-100px" id='+options.id +'>'
+		var template = '<div class="row occurrencia" id='+options.id +'>'
 			+ '<div class="large-7 medium-7 small-10 columns occu_report" ' +'>'
-			+ '<div class="callout report " style="height:auto; margin-left:5%; margin-top:10px;" id='+options.id +"1"+'>'
+			+ '<div class="callout occuren" id='+options.id +"1"+'>'
 			+ '<p style="margin:10px;"><b style="text-decoration:underline;">Occurrence ID: ' + options.id + '</b><br>Name: '+options.name+'<br>Occurrence type: '+ options.type + ' <br>Occurrence instance_id: '+options.instance_id+'<br>Created date: '+options.createddate
 			+ '<br><b style="text-decoration:underline;">Position:</b>'
-			+ '<br>Altitude: <input type="text" value="'+options.altitude+'" id="position-altitude">'
-			+ '<br>Longitude: <input type="text" value="'+options.longitude+'" id="position-longitude">'
-			+ '<br>Latitude: <input type="text" value="'+options.latitude+'" id="position-latitude">'
-			+ '<br>Altitude accuracy: <input type="text" value="'+options.altitudeAccuracy+'" id="position-altitudeAccuracy">'
-			+ '<br>Speed: <input type="text" value="'+options.speed+'" id="position-speed">'
-			+ '<br>Heading: <input type="text" value="'+options.heading+'" id="position-heading">'
-			+ '<br>Accuracy: <input type="text" value="'+options.accuracy+'" id="position-accuracy"><br>'
+			+ '<br>Altitude: <input type="text" value="'+options.altitude+'" id="position-altitude" class="position">'
+			+ '<br>Longitude: <input type="text" value="'+options.longitude+'" id="position-longitude" class="position">'
+			+ '<br>Latitude: <input type="text" value="'+options.latitude+'" id="position-latitude" class="position">'
+			+ '<br>Altitude accuracy: <input type="text" value="'+options.altitudeAccuracy+'" id="position-altitudeAccuracy" class="position">'
+			+ '<br>Speed: <input type="text" value="'+options.speed+'" id="position-speed" class="position">'
+			+ '<br>Heading: <input type="text" value="'+options.heading+'" id="position-heading" class="position">'
+			+ '<br>Accuracy: <input type="text" value="'+options.accuracy+'" id="position-accuracy" class="position"><br>'
 			+ '</p>';
 
 		var photos = "";
 		for (var i = 0; i < options.photos.length; i++) {
-			photos += "<a href='"+options.photos[i]+"' target='_blank'><img src='"+options.photos[i]+"'></a>";
+			photos += "<a href='"+options.photos[i]+"' target='_blank'><div class='conPh'><img class='photo' src='"+options.photos[i]+"'></div></a>";
 		};
 
 		template += photos;
 		template += "</div></div></div>"
 	}
 	else {
-		var template = '<div class="row occurrencia" style="margin-top:-100px" id='+options.id +'>'
+		var template = '<div class="row occurrencia" id='+options.id +'>'
 		+ '<div class="large-7 medium-7 small-10 columns occu_report" ' +'>'
 		+ '<div class="callout report " style="height:auto; margin-left:5%; margin-top:10px;" id='+options.id +"1"+'>'
 		+ '<p style="margin:10px;"><b style="text-decoration:underline;">Occurrence ID: ' + options.id + '</b><br>Name: '+options.name+'<br>Occurrence type: '+ options.type + ' <br>Occurrence instance_id: '+options.instance_id+'<br>Created date: '+options.createddate
@@ -299,10 +309,17 @@ roads.buildTemplate = function(options) {
 				+ '<div class="conView conten">'
 				+ '<img  style="cursor: pointer" class="img imgView" src="static/img/view.png" />'
 				+ '</div>'
+				+ '<div class="conGraph conten">'
+				+ '<img  style="cursor: pointer" class="img imgGraph" src="static/img/graph.png" />'
 				+ '</div>'
 				+ '</div>'
 				+ '</div>'
-				+ '</div>';
+				+ '</div>'
+				+ '</div>'
+				//div vazia
+				+'<div class="occu_wraper" id='+options._id +'>'
+				+'</div>';
+				//div vazia		
 	return template;
 }
 
