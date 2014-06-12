@@ -1,6 +1,35 @@
+@font-face
+{
+  font-family: Sreg;
+  src: url('../fonts/SourceSansPro-Regular.ttf');
+}
+
+@font-face
+{
+  font-family: Ssemi;
+  src: url('../fonts/SourceSansPro-Semibold.ttf');
+}
+
+@font-face
+{
+  font-family: Sbold;
+  src: url('../fonts/SourceSansPro-Bold.ttf');
+}
+
+@font-face
+{
+  font-family: Sit;
+  src: url('../fonts/SourceSansPro-LightIt.ttf');
+}
+
+
+
+
+
+
 body{
 	overflow:hidden; 
-	font-family: 'Source Sans Pro', sans-serif;
+	font-family: Sreg;
 }
 
 
@@ -21,6 +50,13 @@ input[type="text"] {
 }
 
 
+b{
+	font-family: Ssemi;
+}
+
+
+
+
 /*LOGO --------------------------------------------------------*/
 .logotipo{
 	width: 230px;
@@ -31,15 +67,15 @@ input[type="text"] {
 	z-index: 999999999999;
 	position: fixed;
 
-	background: rgba(30,30,30,0.8);
+	background: rgba(0,0,0,0.8);
 }
 
 .conLog{
 	width:160px;
 	height:40px;
 
-	margin-top: 12px;
-	margin-left: calc(50% - 88px);
+	margin-top: 6px;
+	margin-left: 5%;
 
 	display:block; 
     position:relative;
@@ -67,18 +103,22 @@ input[type="text"] {
 .wrapList{
 	width: 100%;
 	margin-left: 2%;
-	margin-right: auto;
-	max-width: initial;	
 
 	overflow-x: hidden;
-	overflow-y: scroll;
+	overflow-y: auto;
 	
 	margin-top: 5.500em;
-	height:85%;
+	max-height:85%;
 
 	z-index:100;
 	position: absolute;
+	outline: none;
 }	
+
+
+#reports{
+	min-height: 1000px;
+}
 
 .con_report{
 	margin-bottom: -20px !important;
@@ -92,13 +132,14 @@ input[type="text"] {
 	margin-bottom: 25px;
 }
 
+
 .occu_wraper{
 	width: 100%;
 	margin-top: -100px !important;
 	margin-bottom: 25px;
-	overflow-y:scroll; 
+	overflow-y:auto; 
 	overflow-x:hidden; 
-	max-height: 350px;
+	max-height: 400px;
 }
 
 .occurrencia{
@@ -221,6 +262,63 @@ input[type="text"] {
 
 
 
+
+
+
+#contentBox{
+	width: 370px;
+	height: 150px;
+	background: rgba(192, 57, 43, 0.9);
+}
+.tipNome{
+	padding-top: 10px !important;
+}
+.tipNome, .tipTipo, .tipId, .tipData{
+	font-family: Sreg;
+	margin-bottom: 15px;
+	font-size: 16px;
+	margin-left: 10px;
+	color: white;
+}
+
+.tipConF{
+	width: 123px;
+	height: 80px;
+	background: yellow;
+	float: left;
+	display: block;
+	overflow: hidden;
+	position: relative;
+	margin-top: 10px;
+}
+.tipFoto{
+	position:absolute;
+	top: 0px;
+	left: 0px;
+	width:100%;
+	margin: auto;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 7px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0,0,0,.5);
+    -webkit-box-shadow: 0 0 1px rgba(255,255,255,.5);
+}
 
 
 
