@@ -6,45 +6,69 @@ var roads = {
 
 	addOccurence: function(obj) {
 		var self = this;
+		var infobox;
 		var latitude = obj.position.coords.latitude;
 		var longitude = obj.position.coords.longitude;
-
 
 		var myLatlng = new google.maps.LatLng(latitude,longitude);
 
 
 		this.markerBounds.push(new google.maps.LatLng(latitude,longitude));
 
-		var contentString = '<div id="content">'+
+		//to do - definir o máximo de fotos a aparecer num report a 3.
+
+		var contentString = '<div id="contentBox">'+
 		'<div id="siteNotice">'+
 		'</div>'+
-		'<h1 id="firstHeading" style="color:#000000" class="firstHeading">' + obj.id + '</h1>'+
-		'<h2 id="secondHeading" style="color:#000000" class="secondHeading">' + obj.type + '</h2>'
+		'<div id="tipNome" class="tipNome"><b>' + "Name - " + '</b>' + obj.name + '</div>'+
+		'<div id="tipTipo" class="tipTipo"><b>' + "Type - " + '</b>' + obj.type + '</div>'+
+		'<div id="tipId" class="tipId"><b>' + "Id - " + '</b>' + obj.id + '</div>'+
+		'<div id="tipData" class="tipData"><b>' + "Creation Date - " + '</b>' + obj.createddate + '</div>'+
+		'<div id="tipConF" class="tipConF">'+
+		'<div id="tipFoto" class="tipFoto">' + obj.photos + '</div>'+
+		'</div>'+
 		'</div>';
 
 		var marker = new google.maps.Marker({
 			position: myLatlng,
 			zoom: 100,
 			map: roads.map,
+			icon: icons.report.icon,
 			title: obj.type
 		});
 
 		marker.occ_id = obj.id;
 
-	  	google.maps.event.addListener(marker, 'click', function() {
-	  		window.currentMarker = marker;
-	  		if(window.infowindow) {
-	  			window.infowindow.close()
-	  		}
-	  		window.infowindow = null;
 
-	  		window.infowindow = new google.maps.InfoWindow({
-      							content: contentString
-		  					});
-		  	
-		  	window.infowindow.open(self.map, marker);
-		  	
+	  	google.maps.event.addListener(marker, 'click', function() {
+	
+			if(window.infobox){
+                window.infobox.close();
+            }
+
+            window.infobox = null;
+
+            window.infobox = new InfoBox({
+		         content: document.getElementById("contentBox"),
+		         disableAutoPan: false,
+		         maxWidth: 150,
+		         pixelOffset: new google.maps.Size(-185, -300),
+		         zIndex: null,
+		         boxStyle: {
+		            background: " ",
+		            opacity: 1,
+		            width: " "
+		        },
+		        closeBoxMargin: "10px ",
+		        closeBoxURL: "static/img/close.png",
+		        infoBoxClearance: new google.maps.Size(1, 1)
+		    });
+
+		  	window.infobox.setContent(contentString);
+            window.infobox.open(self.map, marker);
+        	
 	  	});
+
 	  	window.markers.push(marker);
 	},
 
@@ -258,7 +282,7 @@ roads.buildOccurrenceTemplate = function(options) {
 		var template = '<div class="row occurrencia" id='+options.id +'>'
 			+ '<div class="large-7 medium-7 small-10 columns occu_report" ' +'>'
 			+ '<div class="callout occuren" id='+options.id +"1"+'>'
-			+ '<p style="margin:10px;"><b style="text-decoration:underline;">Occurrence ID: ' + options.id + '</b><br>Name: '+options.name+'<br>Occurrence type: '+ options.type + ' <br>Occurrence instance_id: '+options.instance_id+'<br>Created date: '+options.createddate
+			+ '<p style="margin:10px;"><b style="text-decoration:underline;">Occurrence ID: ' + options.id + '</b><br><b>Name:</b> '+options.name+'<br><b>Occurrence type:</b> '+ options.type + ' <br><b>Occurrence instance_id:</b> '+options.instance_id+'<br><b>Created date:</b> '+options.createddate
 			+ '<br><b style="text-decoration:underline;">Position:</b>'
 			+ '<br>Altitude: <input type="text" value="'+options.altitude+'" id="position-altitude" class="position">'
 			+ '<br>Longitude: <input type="text" value="'+options.longitude+'" id="position-longitude" class="position">'
@@ -281,7 +305,7 @@ roads.buildOccurrenceTemplate = function(options) {
 		var template = '<div class="row occurrencia" id='+options.id +'>'
 		+ '<div class="large-7 medium-7 small-10 columns occu_report" ' +'>'
 		+ '<div class="callout report " style="height:auto; margin-left:5%; margin-top:10px;" id='+options.id +"1"+'>'
-		+ '<p style="margin:10px;"><b style="text-decoration:underline;">Occurrence ID: ' + options.id + '</b><br>Name: '+options.name+'<br>Occurrence type: '+ options.type + ' <br>Occurrence instance_id: '+options.instance_id+'<br>Created date: '+options.createddate
+		+ '<p style="margin:10px;"><b style="text-decoration:underline;">Occurrence ID: ' + options.id + '</b><br><b>Name:</b> '+options.name+'<br><b>Occurrence type:</b> '+ options.type + ' <br><b>Occurrence instance_id:</b> '+options.instance_id+'<br><b>Created date:</b> '+options.createddate
 		+ '</p>'
 		+ '</div>'
 		+ '</div>'
@@ -391,6 +415,13 @@ roads.initMaps = function() {
 	};
     var mapElement = document.getElementById('map');
     this.map = new google.maps.Map(mapElement, mapOptions);
+
+
+    icons = {
+        report: {
+            icon: 'static/img/report.png'
+        },
+    };
 }
 
 $(document).ready(function() {
@@ -398,4 +429,5 @@ $(document).ready(function() {
 	window.polylines = [];
 	roads.initMaps();
 	roads.fetchReports();
+	//$('.wrapList').jScrollPane();
 });
