@@ -13,7 +13,7 @@ import time
 from bson.objectid import ObjectId
 from random import randrange
 
-from roads.helpers.roads import haversine
+from roads.helpers.roads import haversine, path_distance
 
 client = MongoClient('mongodb://moth.dec.uc.pt:27017')
 db = client['speroroads']
