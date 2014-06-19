@@ -13,11 +13,15 @@ import time
 from bson.objectid import ObjectId
 from random import randrange
 
+from roads.helpers.roads import haversine
+
 client = MongoClient('mongodb://moth.dec.uc.pt:27017')
 db = client['speroroads']
 
 def index(request):
 	return render(request,'index.html')
+
+
 
 @csrf_exempt
 def rest(request, ident):
@@ -120,10 +124,13 @@ def create(request):
 		new_obj['options'] = route['options']
 		new_obj['subRoutes'] = route['subRoutes']
 		new_obj['occurrences'] = route['occurrences']
+
+		for occ in new_obj['occurrences']:
+			if occ["type"] == "path":
+				occ["path_length"] = path_distance(occ["path"])
 		
 		try:
 			route_id = db.levantamentos.insert(new_obj)
-
 			return HttpResponse(json.dumps({
 									'success': True, 
 									'msg': 'Successfuly added new route',

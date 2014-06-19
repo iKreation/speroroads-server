@@ -39,7 +39,6 @@ var roads = {
 
 		marker.occ_id = obj.id;
 
-
 	  	google.maps.event.addListener(marker, 'click', function() {
 	
 			if(window.infobox){
@@ -81,6 +80,7 @@ var roads = {
 			var marker = new google.maps.Marker({
 				position: new google.maps.LatLng(obj.path[i][0], obj.path[i][1]),
 				zoom: 100,
+				icon: icons.report.icon,
 				map: roads.map,
 				title: obj.type
 			});
@@ -122,7 +122,6 @@ roads.removeAllPolylines = function() {
 }
 
 roads.showOccurrences = function(options) {
-	console.log(options);
 	var route_id = options.route_id;
 	var self = this;
 	var route = self.findRoute({
@@ -203,7 +202,7 @@ roads.triggerEvents = function() {
 	var routes = reports.find('.levantamentos');
 	var self = this;
 	
-	console.log(routes);
+	//console.log(routes);
 	routes.each(function () {
 
 		var route = $(this);
@@ -266,14 +265,51 @@ roads.triggerEvents = function() {
 		});
 		//todo - função showGraph a escrever na div #graph
 		botaoGraph.click(function() {
-			$("#graph").fadeIn(100);
 			id = route.attr("id");
-			self.showGraph({
-				route_id: id
-			});
+			if (!$("#graph").is(":visible")) {
+				self.showGraph({
+					route_id: id
+				});
+			} else {
+				$("#graph").fadeOut();
+			}
 		});
 
 	});
+}
+
+roads.showGraph = function(options) {
+	$("#graph").fadeIn();
+	route_id = options.route_id;
+	//var plot1 = $.jqplot ('graph', [[3,7,9,1,4,6,8,2,5]]);
+	var line1 = [['Rodeiras - Tipo 1', 7], ['Rodeiras - Tipo 2', 8], ['Rodeiras - Tipo 3', 1], ['Fendilhamentos - Tipo 1', 9], ['Fendilhamentos - Tipo 2', 2], ['Fendilhamentos - Tipo 3', 1], ['Peladas', 15], 
+  	['Covas', 12], [' Reparações', 3]];
+ 
+  	var plot1 = $.jqplot('graph', [line1], {
+    	title: 'Distribuição de ocorrências',
+	    series:[{renderer:$.jqplot.BarRenderer}],
+	    axesDefaults: {
+	        tickRenderer: $.jqplot.CanvasAxisTickRenderer ,
+	        tickOptions: {
+	          angle: -30,
+	          fontSize: '10pt'
+	        }
+	    },
+	    cursor: {
+        	show: true,
+        	tooltipLocation:'sw', 
+        	zoom:true
+      	},
+      	highlighter: {
+        	show: true,
+        	sizeAdjust: 7.5
+      	},
+	    axes: {
+	      xaxis: {
+	        renderer: $.jqplot.CategoryAxisRenderer
+	      }
+	    }
+  	});
 }
 
 roads.buildOccurrenceTemplate = function(options) {
@@ -306,10 +342,18 @@ roads.buildOccurrenceTemplate = function(options) {
 		+ '<div class="large-7 medium-7 small-10 columns occu_report" ' +'>'
 		+ '<div class="callout report " style="height:auto; margin-left:5%; margin-top:10px;" id='+options.id +"1"+'>'
 		+ '<p style="margin:10px;"><b style="text-decoration:underline;">Occurrence ID: ' + options.id + '</b><br><b>Name:</b> '+options.name+'<br><b>Occurrence type:</b> '+ options.type + ' <br><b>Occurrence instance_id:</b> '+options.instance_id+'<br><b>Created date:</b> '+options.createddate
-		+ '</p>'
-		+ '</div>'
-		+ '</div>'
-		+ '</div>';
+		+ '</p><p style="margin:10px;"><b>Path length:</b> 191.023 km'
+		+ '<br><b>Path depth:</b> 20.2 m2'
+		+ '<br><b>Path area:</b> 200.21 m2'
+		+ '</p>';
+
+		var photos = "";
+		for (var i = 0; i < options.photos.length; i++) {
+			photos += "<a href='"+options.photos[i]+"' target='_blank'><div class='conPh'><img class='photo' src='"+options.photos[i]+"'></div></a>";
+		};
+
+		template += photos;
+		template += "</div></div></div>"
 	}
 	return template;
 }
@@ -318,7 +362,10 @@ roads.buildTemplate = function(options) {
 	var template = '<div class="row levantamentos" id='+options._id +'>'
 				+ '<div class="large-8 medium-8 small-12 columns con_report"' +'>'
 				+ '<div class="callout report" style="height:auto;" id='+options._id +"1"+'>'
-				+ '<p style="margin:10px;"><b style="text-decoration:underline">Route ID: ' + options._id + '</b><br>Name: <input type="text" value="'+ options.name + '" id="route-name"><br>Nº Sub-Routes: '+options.subRoutes.length+'<br>Nº Occurrences: '+options.occurrences.length+'</p>'
+				+ '<p style="margin:10px;"><b style="text-decoration:underline">Route ID: ' + options._id + '</b><br>Name: <input type="text" value="'+ options.name + '" id="route-name"><br>Nº Sub-Routes: '+options.subRoutes.length+'<br>Nº Occurrences: '+options.occurrences.length
+				+ '</p><p style="margin:10px;"><b>Route Length:</b> 928.393 km'
+				+ '<br><b>Average area:</b> 98.1 m2'
+				+ '</p>'
 				+ '</div>'
 				+ '</div>'
 				+ '<div class="large-2 medium-2 small-12 columns bts">'
@@ -360,7 +407,7 @@ roads.findRoute = function(options) {
 
 roads.buildReports = function() {
 	var self = this;
-	console.log(this.routes);
+	//console.log(this.routes);
 	for (var i = 0; i < this.routes.length; i++) {
 		var template = this.buildTemplate({
 			_id: this.routes[i]._id,
@@ -382,6 +429,39 @@ roads.fetchReports = function() {
 		};
 		self.buildReports();
 	});
+}
+
+/* -------------------------------------------- */
+/*	Sample usage:								*/
+/*		var p1 = {								*/
+/*			lat: 51.5136,						*/
+/*			lng: -8.8983						*/
+/*		}										*/
+/*												*/
+/*		var p2 = {								*/
+/*			lat: 51.5136,						*/
+/*			lng: -8.8915						*/
+/*		}										*/
+/*											  	*/
+/*		var dist = roads.pointDistance(p1, p2); */
+/* -------------------------------------------- */
+roads.pointDistance = function(point1, point2, precision) {
+    // default 4 significant figures reflects typical 0.3% accuracy of spherical model
+    if (typeof precision == 'undefined') precision = 4;
+  
+    var R = 6371; // radius of earth in kilometres
+    var φ1 = point1.lat.toRadians(),  λ1 = point1.lng.toRadians();
+    var φ2 = point.lat.toRadians(), λ2 = point.lng.toRadians();
+    var Δφ = φ2 - φ1;
+    var Δλ = λ2 - λ1;
+
+    var a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+            Math.cos(φ1) * Math.cos(φ2) *
+            Math.sin(Δλ/2) * Math.sin(Δλ/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c;
+
+    return d.toPrecisionFixed(Number(precision));
 }
 
 roads.initMaps = function() {
