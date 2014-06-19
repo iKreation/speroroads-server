@@ -271,7 +271,8 @@ roads.triggerEvents = function() {
 					route_id: id
 				});
 			} else {
-				$("#graph").fadeOut();
+				$("#graph").fadeOut(100);
+				$("#backwrapper").fadeOut(100);
 			}
 		});
 
@@ -280,6 +281,8 @@ roads.triggerEvents = function() {
 
 roads.showGraph = function(options) {
 	$("#graph").fadeIn();
+	$("#backwrapper").fadeIn();
+
 	route_id = options.route_id;
 	//var plot1 = $.jqplot ('graph', [[3,7,9,1,4,6,8,2,5]]);
 	var line1 = [['Rodeiras - Tipo 1', 7], ['Rodeiras - Tipo 2', 8], ['Rodeiras - Tipo 3', 1], ['Fendilhamentos - Tipo 1', 9], ['Fendilhamentos - Tipo 2', 2], ['Fendilhamentos - Tipo 3', 1], ['Peladas', 15], 
