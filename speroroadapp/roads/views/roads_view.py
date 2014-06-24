@@ -48,41 +48,44 @@ def rest(request, ident):
 @csrf_exempt
 def upload(request, ident):
 	if request.method == 'POST':
-		route_id = request.POST['route_id']
-		occ_id = request.POST['occ_id']
+		try:
+			route_id = request.POST['route_id']
+			occ_id = request.POST['occ_id']
 
-		if request.FILES:
-			f = TempFile(temp=request.FILES['file'])
-			f.save()
-		
-		route = db.levantamentos.find_one({'_id':ObjectId(route_id)})
-		
-		if route != None:
-			occs = route["occurrences"]
-			for occ in occs:
-				if str(occ["id"]) == occ_id:
-					occ["photos"].append("/media/"+f.temp.url)
-					break
-
-			subRoutes = route["subRoutes"]
-			options = route["options"]
-			name = route["name"]
-			route_fake_id = route["id"]
+			if request.FILES:
+				f = TempFile(temp=request.FILES['file'])
+				f.save()
 			
-			db.levantamentos.update({
-				"_id": ObjectId(route_id)
-				},
-				{
-					"_id": ObjectId(route_id),
-					"occurrences": occs,
-					"subRoutes": subRoutes,
-					"name": name,
-					"options": options,
-					"id": route_fake_id
-				})
-			return HttpResponse(simplejson.dumps({'success': True, 'path':"/media/"+f.temp.url, }))
-		else:
-			return HttpResponse(simplejson.dumps({'success': False, "msg":"Route id unknown	."}), content_type="json")
+			route = db.levantamentos.find_one({'_id':ObjectId(route_id)})
+			
+			if route != None:
+				occs = route["occurrences"]
+				for occ in occs:
+					if str(occ["id"]) == occ_id:
+						occ["photos"].append("/media/"+f.temp.url)
+						break
+
+				subRoutes = route["subRoutes"]
+				options = route["options"]
+				name = route["name"]
+				route_fake_id = route["id"]
+				
+				db.levantamentos.update({
+					"_id": ObjectId(route_id)
+					},
+					{
+						"_id": ObjectId(route_id),
+						"occurrences": occs,
+						"subRoutes": subRoutes,
+						"name": name,
+						"options": options,
+						"id": route_fake_id
+					})
+				return HttpResponse(simplejson.dumps({'success': True, 'path':"/media/"+f.temp.url, }))
+			else:
+				return HttpResponse(simplejson.dumps({'success': False, "msg":"Route id unknown	."}), content_type="json")
+		except Exception as e:
+			return HttpResponse(simplejson.dumps({'success': False, "error_msg": e.message}), content_type="json")
 	else:
 		return HttpResponse(simplejson.dumps({'success': False}), content_type="json")
 
