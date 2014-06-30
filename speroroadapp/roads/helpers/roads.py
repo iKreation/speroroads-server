@@ -1,5 +1,6 @@
 from math import radians, cos, sin, asin, sqrt
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 client = MongoClient('mongodb://moth.dec.uc.pt:27017')
 db = client['speroroads']
 
