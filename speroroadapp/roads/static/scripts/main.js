@@ -75,12 +75,12 @@ var roads = {
 		var path = [];
 		var self = this;
 		var FIRST = 0;
-		var LAST = obj.path.length;
+		var LAST = obj.path.length-1;
 
 		for(var i = 0; i < obj.path.length; i++){
 			var point = new google.maps.LatLng(obj.path[i][0], obj.path[i][1])
 			path.push(point);
-			
+
 			if (i == FIRST) {
 				var marker = new google.maps.Marker({
 					position: point,
