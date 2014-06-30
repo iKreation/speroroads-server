@@ -435,7 +435,7 @@ roads.buildReports = function() {
 			occurrences: this.routes[i].occurrences,
 			subRoutes: this.routes[i].subRoutes
 		})
-		$('#reports').append(template);
+		$('#reports').prepend(template);
 	};
 	self.triggerEvents();
 }
