@@ -1,4 +1,7 @@
 from math import radians, cos, sin, asin, sqrt
+from pymongo import MongoClient
+client = MongoClient('mongodb://moth.dec.uc.pt:27017')
+db = client['speroroads']
 
 # Haversine formula
 #
