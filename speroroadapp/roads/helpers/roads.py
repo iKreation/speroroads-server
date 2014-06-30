@@ -19,7 +19,6 @@ def update_route_length(route_id):
 		for occ in occurrences:
 			if occ["type"] == "path":
 				occ["path_length"] = path_distance(occ["path"])
-				print "len: "+str(occ["path_length"])
 
 		result["success"] = True
 		return result

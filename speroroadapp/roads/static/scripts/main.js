@@ -74,18 +74,34 @@ var roads = {
 	addPath: function(obj) {
 		var path = [];
 		var self = this;
+		var FIRST = 0;
+		var LAST = obj.path.length;
 
 		for(var i = 0; i < obj.path.length; i++){
-			path.push(new google.maps.LatLng(obj.path[i][0], obj.path[i][1]));
-			var marker = new google.maps.Marker({
-				position: new google.maps.LatLng(obj.path[i][0], obj.path[i][1]),
-				zoom: 100,
-				icon: icons.report.icon,
-				map: roads.map,
-				title: obj.type
-			});
-			marker.occ_id = obj.id;
-			window.markers.push(marker);
+			var point = new google.maps.LatLng(obj.path[i][0], obj.path[i][1])
+			path.push(point);
+			
+			if (i == FIRST) {
+				var marker = new google.maps.Marker({
+					position: point,
+					zoom: 100,
+					icon: "http://www.google.com/mapfiles/dd-start.png",
+					map: roads.map,
+					title: obj.type
+				});
+				marker.occ_id = obj.id;
+				window.markers.push(marker);
+			} else if (i == LAST) {
+				var marker = new google.maps.Marker({
+					position: point,
+					zoom: 100,
+					icon: "http://www.google.com/mapfiles/dd-end.png",
+					map: roads.map,
+					title: obj.type
+				});
+				marker.occ_id = obj.id;
+				window.markers.push(marker);
+			}
 		}
 
 		var polyline = new google.maps.Polyline({
