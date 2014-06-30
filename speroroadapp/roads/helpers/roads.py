@@ -7,6 +7,21 @@ from math import radians, cos, sin, asin, sqrt
 # 	p2 = {"lat": 51.4778, "lng": -0.0015}
 # 	dist = haversine(p1, p2)
 
+def update_route_length(route_id):
+	result = { "success":False }
+	route = db.levantamentos.find_one({"_id" : ObjectId(route_id)})
+	if route != None:
+		occurrences = route["occurrences"]
+		for occ in occurrences:
+			if occ["type"] == "path":
+				occ["path_length"] = path_distance(occ["path"])
+				print "len: "+str(occ["path_length"])
+
+		result["success"] = True
+		return result
+	return result
+
+
 def haversine(p1, p2):
 	# radius of earth in kilometres
 	radius = 6367 
